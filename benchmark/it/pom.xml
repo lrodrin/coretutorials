@@ -7,35 +7,36 @@ terms of the Eclipse Public License v1.0 which accompanies this distribution,
 and is available at http://www.eclipse.org/legal/epl-v10.html
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-  <parent>
-    <groupId>org.opendaylight.controller</groupId>
-    <artifactId>mdsal-it-parent</artifactId>
-    <version>1.5.2-SNAPSHOT</version>
-    <relativePath/>
-  </parent>
+    <parent>
+        <groupId>org.opendaylight.controller</groupId>
+        <artifactId>mdsal-it-parent</artifactId>
+        <version>1.5.3-SNAPSHOT</version>
+        <relativePath/>
+    </parent>
 
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.opendaylight.coretutorials</groupId>
-  <artifactId>benchmark-it</artifactId>
-  <version>1.1.1-SNAPSHOT</version>
-  <packaging>bundle</packaging>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.opendaylight.coretutorials</groupId>
+    <artifactId>benchmark-it</artifactId>
+    <version>1.1.1-SNAPSHOT</version>
+    <packaging>bundle</packaging>
 
-  <properties>
-    <skipITs>false</skipITs>
-    <karaf.distro.groupId>org.opendaylight.coretutorials</karaf.distro.groupId>
-    <karaf.distro.artifactId>benchmark-karaf</karaf.distro.artifactId>
-    <karaf.distro.version>1.1.1-SNAPSHOT</karaf.distro.version>
-    <karaf.distro.type>zip</karaf.distro.type>
-  </properties>
+    <properties>
+        <skipITs>false</skipITs>
+        <karaf.distro.groupId>org.opendaylight.coretutorials</karaf.distro.groupId>
+        <karaf.distro.artifactId>benchmark-karaf</karaf.distro.artifactId>
+        <karaf.distro.version>1.1.1-SNAPSHOT</karaf.distro.version>
+        <karaf.distro.type>zip</karaf.distro.type>
+    </properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>benchmark-features</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-  </dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>benchmark-features</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>

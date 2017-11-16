@@ -10,11 +10,13 @@ package org.opendaylight.coretutorials;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
+
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.List;
+
 import org.opendaylight.mdsal.binding.javav2.generator.api.BindingGenerator;
 import org.opendaylight.mdsal.binding.javav2.generator.impl.BindingGeneratorImpl;
 import org.opendaylight.mdsal.binding.javav2.model.api.Type;
@@ -33,21 +35,19 @@ import org.openjdk.jmh.annotations.State;
  * during benchmarking binding v1, process of transforming schema context to generated types may fail,
  * but it will continue for binding v2. For this reason, benchmark comparison itself is limited to YANG input set
  * processable by both bindings.
- *
+ * <p>
  * $ cd binding2-benchmark/
  * copy your YANG files to src/main/resources
  * $ mvn clean install
  * Running the benchmarks. After the build is done, you will get the self-contained executable JAR,
- *     which holds your benchmark, and all essential JMH infrastructure code:
+ * which holds your benchmark, and all essential JMH infrastructure code:
  * $ java -jar target/benchmarks.jar
- *
- *
  */
 @State(Scope.Benchmark)
 public class MyBenchmark {
 
     private static final Collection<String> LOCAL_SCHEMA_PATHS =
-        Lists.newArrayList("/yangs/foo1.yang", "/yangs/test-augment-choice-case.yang");
+            Lists.newArrayList("/yangs/foo1.yang", "/yangs/test-augment-choice-case.yang");
 
     private SchemaContext context = null;
 
@@ -71,10 +71,10 @@ public class MyBenchmark {
 
     private static List<InputStream> loadYangs(final Collection<String> yangPaths) {
         return Lists.newArrayList(Collections2.transform(Lists.newArrayList(yangPaths),
-            input -> {
-                final InputStream resourceAsStream = MyBenchmark.class.getResourceAsStream(input);
-                Preconditions.checkNotNull(resourceAsStream, "File %s was null", input);
-                return resourceAsStream;
-            }));
+                input -> {
+                    final InputStream resourceAsStream = MyBenchmark.class.getResourceAsStream(input);
+                    Preconditions.checkNotNull(resourceAsStream, "File %s was null", input);
+                    return resourceAsStream;
+                }));
     }
 }

@@ -1,15 +1,14 @@
 #!/usr/bin/python
 import argparse
-import requests
-import json
 import csv
+import json
+import requests
 import time
 
 __author__ = "Jan Medved"
 __copyright__ = "Copyright(c) 2015, Cisco Systems, Inc."
 __license__ = "New-style BSD"
 __email__ = "jmedved@cisco.com"
-
 
 parser = argparse.ArgumentParser(description='Datastore Benchmarking'
                                              ''
@@ -63,7 +62,7 @@ def send_clear_request():
     url = BASE_URL + "operations/dsbenchmark:cleanup-store"
 
     r = requests.post(url, stream=False, auth=('admin', 'admin'))
-    print r.status_code
+    print(r.status_code)
 
 
 def send_test_request(tx_type, operation, data_fmt, data_store, outer_elem, inner_elem, ops_per_tx, listeners):
@@ -103,7 +102,7 @@ def send_test_request(tx_type, operation, data_fmt, data_store, outer_elem, inne
     if r.status_code == 200:
         result = dict(result.items() + json.loads(r.content)['output'].items())
     else:
-        print 'Error %s, %s' % (r.status_code, r.content)
+        print('Error %s, %s' % (r.status_code, r.content))
     return result
 
 
@@ -117,10 +116,9 @@ def print_results(run_type, idx, res):
                 test run
     :return: None
     """
-    print '{0:s} #{1:d}: status: {2:s}, listBuildTime {3:d}, testExecTime {4:d}, ' \
-          'txOk {5:d}, txError {6:d}, ntfOk {7:d}, dataChangeOk {8:d}' \
-        .format(run_type, idx, res[u'status'], res[u'listBuildTime'], res[u'execTime'],
-                res[u'txOk'], res[u'txError'], res[u'ntfOk'], res[u'dataChangeEventsOk'])
+    print('txOk {5:d}, txError {6:d}, ntfOk {7:d}, dataChangeOk {8:d}'
+          .format(run_type, idx, res[u'status'], res[u'listBuildTime'], res[u'execTime'],
+                  res[u'txOk'], res[u'txError'], res[u'ntfOk'], res[u'dataChangeEventsOk']))
 
 
 def run_test(warmup_runs, test_runs, tx_type, operation, data_fmt, data_store,
@@ -145,9 +143,8 @@ def run_test(warmup_runs, test_runs, tx_type, operation, data_fmt, data_store,
     total_build_time = 0.0
     total_exec_time = 0.0
 
-    print 'Tx Type: {0:s}, Operation: {1:s}, Data Format: {2:s}, Data store: {3:s}, ' \
-          'Outer/Inner Elements: {4:d}/{5:d}, OpsPerTx {6:d}, Listeners {7:d}' \
-        .format(tx_type, operation, data_fmt, data_store, outer_elem, inner_elem, ops_per_tx, listeners)
+    print('Outer/Inner Elements: {4:d}/{5:d}, OpsPerTx {6:d}, Listeners {7:d}'
+          .format(tx_type, operation, data_fmt, data_store, outer_elem, inner_elem, ops_per_tx, listeners))
     for idx in range(warmup_runs):
         res = send_test_request(tx_type, operation, data_fmt, data_store, outer_elem, inner_elem, ops_per_tx, listeners)
         print_results('WARMUP', idx, res)
@@ -179,11 +176,11 @@ if __name__ == "__main__":
     TEST_RUNS = args.runs
 
     if TESTS == ["DATA-FORMAT"]:
-        print "\n***************************************"
+        print("\n***************************************")
         for op in OPS_PER_TX:
             if op > 1:
-                print "!!! WARNING: The 'DATA-FORMAT' test only supports 1 op-per-transaction, %d specified !!!" % op
-        print "***************************************"
+                print("!!! WARNING: The 'DATA-FORMAT' test only supports 1 op-per-transaction, %d specified !!!" % op)
+        print("***************************************")
 
     # Clean up any data that may be present in the data store
     send_clear_request()
@@ -192,7 +189,7 @@ if __name__ == "__main__":
     f = open('test.csv', 'wt')
     try:
         start_time = time.time()
-        print "Start time: %f " % start_time
+        print("Start time: %f " % start_time)
 
         writer = csv.writer(f)
 
@@ -200,31 +197,31 @@ if __name__ == "__main__":
         # Iterate over all transaction types, data formats, operation types, and different
         # list-of-lists layouts; always use a single operation in each transaction
         if "DATA-FORMAT" in TESTS:
-            print '\n#######################################'
-            print 'Tx type, data format & data structure'
-            print '#######################################'
+            print('\n#######################################')
+            print('Tx type, data format & data structure')
+            print('#######################################')
             for txt in TX_TYPES:
-                print '***************************************'
-                print 'Transaction Type: %s' % txt
-                print '***************************************'
+                print('***************************************')
+                print('Transaction Type: %s' % txt)
+                print('***************************************')
                 writer.writerow((('%s:' % txt), '', ''))
 
                 for fmt in DATA_FORMATS:
-                    print '---------------------------------------'
-                    print 'Data format: %s' % fmt
-                    print '---------------------------------------'
+                    print('---------------------------------------')
+                    print('Data format: %s' % fmt)
+                    print('---------------------------------------')
                     writer.writerow(('', ('%s:' % fmt), ''))
 
                     for oper in OPERATIONS:
-                        print 'Operation: %s' % oper
+                        print('Operation: %s' % oper)
                         writer.writerow(('', '', '%s:' % oper))
 
                         for datastore in DATA_STORES:
-                            print 'Data Store: %s' % datastore
+                            print('Data Store: %s' % datastore)
                             writer.writerow(('', '', '', '%s:' % datastore))
 
                             for lsts in LISTENERS:
-                                print 'Listeners: %d' % lsts
+                                print('Listeners: %d' % lsts)
                                 writer.writerow(('', '', '', '', '%d:' % lsts))
 
                                 for elem in INNER_ELEMENTS:
@@ -235,7 +232,7 @@ if __name__ == "__main__":
 
                                     tx_rate = TOTAL_ELEMENTS / elem * USEC_PER_SEC / avg_exec_time
                                     upd_rate = TOTAL_ELEMENTS * USEC_PER_SEC / avg_exec_time
-                                    print '    tx_rate: %d, upd_rate: %d' % (tx_rate, upd_rate)
+                                    print('    tx_rate: %d, upd_rate: %d' % (tx_rate, upd_rate))
 
                                     writer.writerow(('', '', '', '', '', e_label, avg_build_time, avg_exec_time,
                                                      (avg_build_time + avg_exec_time)))
@@ -244,31 +241,31 @@ if __name__ == "__main__":
         # Iterate over all transaction types, data formats, operation types, and
         # operations-per-transaction; always use a list of lists where the inner list has one parameter
         if "OPS-PER-TX" in TESTS:
-            print '\n#######################################'
-            print 'Puts per tx'
-            print '#######################################'
+            print('\n#######################################')
+            print('Puts per tx')
+            print('#######################################')
             for txt in TX_TYPES:
-                print '***************************************'
-                print 'Transaction Type: %s' % txt
-                print '***************************************'
+                print('***************************************')
+                print('Transaction Type: %s' % txt)
+                print('***************************************')
                 writer.writerow((('%s:' % txt), '', ''))
 
                 for fmt in DATA_FORMATS:
-                    print '---------------------------------------'
-                    print 'Data format: %s' % fmt
-                    print '---------------------------------------'
+                    print('---------------------------------------')
+                    print('Data format: %s' % fmt)
+                    print('---------------------------------------')
                     writer.writerow(('', ('%s:' % fmt), ''))
 
                     for oper in OPERATIONS:
-                        print 'Operation: %s' % oper
+                        print('Operation: %s' % oper)
                         writer.writerow(('', '', '%s:' % oper))
 
                         for datastore in DATA_STORES:
-                            print 'Data Store: %s' % datastore
+                            print('Data Store: %s' % datastore)
                             writer.writerow(('', '', '', '%s:' % datastore))
 
                             for lsts in LISTENERS:
-                                print 'Listeners: %d' % lsts
+                                print('Listeners: %d' % lsts)
                                 writer.writerow(('', '', '', '', '%d:' % lsts))
 
                                 for wtx in OPS_PER_TX:
@@ -278,17 +275,18 @@ if __name__ == "__main__":
 
                                     ds_tx_rate = TOTAL_ELEMENTS / wtx * USEC_PER_SEC / avg_exec_time
                                     ds_upd_rate = TOTAL_ELEMENTS * USEC_PER_SEC / avg_exec_time
-                                    total_tx_rate = TOTAL_ELEMENTS / wtx * USEC_PER_SEC / (avg_exec_time + avg_build_time)
+                                    total_tx_rate = TOTAL_ELEMENTS / wtx * USEC_PER_SEC / (
+                                        avg_exec_time + avg_build_time)
                                     total_upd_rate = TOTAL_ELEMENTS * USEC_PER_SEC / (avg_exec_time + avg_build_time)
-                                    print '    ds_tx_rate: %d, ds_upd_rate: %d' % (ds_tx_rate, ds_upd_rate)
-                                    print '    total_tx_rate: %d, total_upd_rate: %d' % (total_tx_rate, total_upd_rate)
+                                    print('    ds_tx_rate: %d, ds_upd_rate: %d' % (ds_tx_rate, ds_upd_rate))
+                                    print('    total_tx_rate: %d, total_upd_rate: %d' % (total_tx_rate, total_upd_rate))
 
                                     writer.writerow(('', '', '', '', '', wtx, avg_build_time, avg_exec_time,
                                                      (avg_build_time + avg_exec_time)))
 
         end_time = time.time()
-        print "End time: %f " % end_time
-        print "Total execution time: %f" % (end_time - start_time)
+        print("End time: %f " % end_time)
+        print("Total execution time: %f" % (end_time - start_time))
 
     finally:
         f.close()

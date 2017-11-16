@@ -46,7 +46,7 @@ public class BenchmarkModuleTest {
         AutoCloseable closeable = module.getInstance();
 
         // verify that the module registered the returned provider with the broker
-        verify(broker).registerProvider((BenchmarkProvider)closeable);
+        verify(broker).registerProvider((BenchmarkProvider) closeable);
 
         // ensure no exceptions on close
         closeable.close();

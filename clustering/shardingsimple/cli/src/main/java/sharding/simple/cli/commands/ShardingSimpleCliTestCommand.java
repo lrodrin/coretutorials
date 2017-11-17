@@ -42,10 +42,10 @@ public class ShardingSimpleCliTestCommand extends AbstractAction {
 
     @Override
     protected Object doExecute() throws Exception {
-        /**
-         * Invoke commannd implementation here using the service instance.
-         * Implement how you want the output of the command to be displayed.
-         * Below is just an example.
+        /*
+          Invoke commannd implementation here using the service instance.
+          Implement how you want the output of the command to be displayed.
+          Below is just an example.
          */
         final String testMessage = (String) service.testCommand(testArgument);
         return testMessage;

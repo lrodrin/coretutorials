@@ -2,4 +2,5 @@
 member-1 ansible_host=172.17.0.2
 member-2 ansible_host=172.17.0.3
 member-3 ansible_host=172.17.0.4
+# TODO modificar IPs
 

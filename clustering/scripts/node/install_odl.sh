@@ -1,4 +1,4 @@
-#!/bin/bash#
+#!/bin/bash
 #
 # Copyright (c) 2016 Cisco Systems, Inc. and others. All rights reserved.
 #

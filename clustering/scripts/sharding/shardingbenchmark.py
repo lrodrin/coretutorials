@@ -94,7 +94,7 @@ def send_test_request(test_type, datastore, shards, data_items, operations,
     if r.status_code == 200:
         result = dict(result.items() + json.loads(r.content)['output'].items())
     else:
-        print 'Error %s, %s' % (r.status_code, r.content)
+        print('Error %s, %s' % (r.status_code, r.content))
     return result
 
 
@@ -107,10 +107,10 @@ def print_results(run_type, idx, res):
     :param res: Parsed json (dictionary) that was returned from a shardingsimple test run
     :return: None
     """
-    print '{0:s} #{1:d}: status: {2:s}, totalExecTime {3:d}, ' \
-          'listenerEventsOk {4:d} txOk {5:d}, txError {6:d}' \
-        .format(run_type, idx, res[u'status'], res[u'totalExecTime'], res[u'listenerEventsOk'], res[u'txOk'],
-                res[u'txError'])
+    print('{0:s} #{1:d}: status: {2:s}, totalExecTime {3:d}, '
+          'listenerEventsOk {4:d} txOk {5:d}, txError {6:d}'
+          .format(run_type, idx, res[u'status'], res[u'totalExecTime'], res[u'listenerEventsOk'], res[u'txOk'],
+                  res[u'txError']))
 
 
 def run_test(warmup_runs, test_runs, test_type, datastore, shards, data_items, operations, puts_per_tx,
@@ -135,10 +135,10 @@ def run_test(warmup_runs, test_runs, test_type, datastore, shards, data_items, o
     """
     total_exec_time = 0.0
 
-    print 'Test Type: {0:s}, Datastore: {1:s}, Shards: {2:d}, Data Items: {3:d}, Operations: {4:d},' \
-          'Puts per Tx: {5:d}, Listeners: {6:d}, Precreate Data: {7:s}, Validate Data: {8:s}' \
-        .format(test_type, datastore, shards, data_items, operations, puts_per_tx,
-                listeners, precreate_data, validate_data)
+    print('Test Type: {0:s}, Datastore: {1:s}, Shards: {2:d}, Data Items: {3:d}, Operations: {4:d},'
+          'Puts per Tx: {5:d}, Listeners: {6:d}, Precreate Data: {7:s}, Validate Data: {8:s}'
+          .format(test_type, datastore, shards, data_items, operations, puts_per_tx,
+                  listeners, precreate_data, validate_data))
 
     for idx in range(warmup_runs):
         res = send_test_request(test_type, datastore, shards, data_items, operations,
@@ -177,7 +177,7 @@ if __name__ == "__main__":
     f = open(filename, 'wt')
     try:
         start_time = time.time()
-        print "Start time: %f" % start_time
+        print("Start time: %f" % start_time)
 
         writer = csv.writer(f)
 
@@ -187,49 +187,49 @@ if __name__ == "__main__":
                          'Shards', 'Data Items', 'Operations', 'Exec Time', 'TX Rate', 'Update Rate'))
 
         for ttype in TEST_TYPE:
-            print '\n***************************************'
-            print 'Test Type: %s' % ttype
-            print '***************************************'
+            print('\n***************************************')
+            print('Test Type: %s' % ttype)
+            print('***************************************')
             writer.writerow((('%s' % ttype), '', ''))
 
             for dtst in DATASTORE:
-                print
+                print()
                 '---------------------------------------'
-                print 'Datastore: %s' % dtst
-                print '---------------------------------------'
+                print('Datastore: %s' % dtst)
+                print('---------------------------------------')
                 writer.writerow(('', ('%s' % dtst), ''))
 
                 for vld in VALIDATE_DATA:
-                    print 'Validate Data: %s' % vld
+                    print('Validate Data: %s' % vld)
                     writer.writerow(('', '', '%s' % vld))
 
                     for pcd in PRECREATE_DATA:
-                        print 'Precreate Data: %s' % pcd
+                        print('Precreate Data: %s' % pcd)
                         writer.writerow(('', '', '', '%s' % pcd))
 
                         for lsts in LISTENERS:
-                            print 'Listeners: %d' % lsts
+                            print('Listeners: %d' % lsts)
                             writer.writerow(('', '', '', '', '%d' % lsts))
 
                             for ppt in PUTS_PER_TX:
-                                print 'Puts per Tx: %d' % ppt
+                                print('Puts per Tx: %d' % ppt)
                                 writer.writerow(('', '', '', '', '', '%d' % ppt))
 
                                 for sd in SHARDS:
-                                    print 'Shards: %d' % sd
+                                    print('Shards: %d' % sd)
 
                                     di = DATA_ITEMS / sd
-                                    print 'Data Items: %d' % di
+                                    print('Data Items: %d' % di)
 
                                     for ops in OPS:
-                                        print 'Operations: %d' % ops
+                                        print('Operations: %d' % ops)
                                         avg_exec_time = \
                                             run_test(WARMUP_RUNS, TEST_RUNS, ttype, dtst, sd, di, ops,
                                                      ppt, lsts, pcd, vld)
-                                        print '     avg_exec_time: %d' % avg_exec_time
+                                        print('     avg_exec_time: %d' % avg_exec_time)
                                         tx_rate = DATA_ITEMS / ppt * USEC_PER_SEC / avg_exec_time
                                         upd_rate = DATA_ITEMS * USEC_PER_SEC / avg_exec_time
-                                        print '     tx_rate: %d, upd_rate: %d' % (tx_rate, upd_rate)
+                                        print('     tx_rate: %d, upd_rate: %d' % (tx_rate, upd_rate))
                                         writer.writerow(('', '', '', '', '', '', '%d' % sd, '%d' % di, ops,
                                                          avg_exec_time, tx_rate, upd_rate))
                                         time.sleep(DELAY)

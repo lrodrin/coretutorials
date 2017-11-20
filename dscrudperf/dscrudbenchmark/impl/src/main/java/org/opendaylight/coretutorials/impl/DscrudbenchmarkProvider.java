@@ -9,6 +9,7 @@ package org.opendaylight.coretutorials.impl;
 
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicReference;
+
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.md.sal.binding.api.WriteTransaction;
 import org.opendaylight.controller.md.sal.common.api.data.LogicalDatastoreType;
@@ -30,12 +31,14 @@ public class DscrudbenchmarkProvider implements DscrudbenchmarkService, BindingA
     private static final Logger LOG = LoggerFactory.getLogger(DscrudbenchmarkProvider.class);
     private DataBroker dataBroker;
     protected DscrudService dscrudService;
+
     @Override
     public void onSessionInitiated(ProviderContext session) {
         session.addRpcImplementation(DscrudbenchmarkService.class, this);
         dscrudService = session.getRpcService(DscrudService.class);
         this.dataBroker = session.getSALService(DataBroker.class);
-        LOG.info("Dscrudbenchmark Session Initiated");    }
+        LOG.info("Dscrudbenchmark Session Initiated");
+    }
 
     @Override
     public void close() throws Exception {
@@ -44,6 +47,7 @@ public class DscrudbenchmarkProvider implements DscrudbenchmarkService, BindingA
 
     /**
      * RPC to start tests.
+     *
      * @param input
      * @return
      */

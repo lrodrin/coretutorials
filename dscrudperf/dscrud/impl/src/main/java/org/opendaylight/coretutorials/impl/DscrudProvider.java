@@ -9,8 +9,10 @@ package org.opendaylight.coretutorials.impl;
 
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.Monitor;
+
 import java.util.Collections;
 import java.util.concurrent.Future;
+
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.md.sal.binding.api.WriteTransaction;
 import org.opendaylight.controller.md.sal.common.api.data.LogicalDatastoreType;
@@ -58,7 +60,6 @@ public class DscrudProvider implements BindingAwareProvider, DscrudService, Auto
 
     /**
      * clean data store
-     *
      */
     @Override
     public Future<RpcResult<Void>> cleanupStore() {
@@ -69,7 +70,6 @@ public class DscrudProvider implements BindingAwareProvider, DscrudService, Auto
 
     /**
      * Perform a crud test
-     *
      */
     @Override
     public Future<RpcResult<DoCrudOutput>> doCrud(DoCrudInput input) {
@@ -78,18 +78,18 @@ public class DscrudProvider implements BindingAwareProvider, DscrudService, Auto
         DoCrudInput.Operation oper = input.getOperation();
         int outerListId = input.getOuterElementId().intValue();
         int numInnerListElements = input.getInnerElements().intValue();
-        
+
         // Run the test and measure the execution time
         try {
             simpletxCrudMonitor.doOper(oper, outerListId, numInnerListElements);
 
-        } catch ( Exception e ) {
-            LOG.error( "Test error: {}", e.toString());
+        } catch (Exception e) {
+            LOG.error("Test error: {}", e.toString());
             return RpcResultBuilder.success(new DoCrudOutputBuilder()
                     .setStatus(DoCrudOutput.Status.FAILED)
                     .build()).buildFuture();
         }
-        
+
         DoCrudOutput output = new DoCrudOutputBuilder()
                 .setStatus(DoCrudOutput.Status.OK)
                 .setTxOk((long) simpletxCrudMonitor.txOk)

@@ -11,6 +11,7 @@ package org.opendaylight.coretutorials.impl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import com.google.common.base.Optional;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Monitor;
@@ -60,15 +61,15 @@ public class SimpleTxCrudMonitor {
         LOG.info("Created SimpletxCrud");
     }
 
-    static private List<InnerList> buildInnerList( int index, int elements ) {
-        List<InnerList> innerList = new ArrayList<InnerList>( elements );
+    static private List<InnerList> buildInnerList(int index, int elements) {
+        List<InnerList> innerList = new ArrayList<InnerList>(elements);
 
         final String itemStr = "Item-" + String.valueOf(index) + "-";
-        for( int i = 0; i < elements; i++ ) {
+        for (int i = 0; i < elements; i++) {
             innerList.add(new InnerListBuilder()
-                    .setKey( new InnerListKey( String.valueOf( i ) ) )
+                    .setKey(new InnerListKey(String.valueOf(i)))
                     .setId(String.valueOf(i))
-                    .setValue( itemStr + String.valueOf( i ) )
+                    .setValue(itemStr + String.valueOf(i))
                     .build());
         }
 
@@ -80,7 +81,7 @@ public class SimpleTxCrudMonitor {
         ReadOnlyTransaction tx = dataBroker.newReadOnlyTransaction();
 
         InstanceIdentifier<OuterList> iid = InstanceIdentifier.create(TestExec.class)
-                .child(OuterList.class, new OuterListKey(String.valueOf( j )));
+                .child(OuterList.class, new OuterListKey(String.valueOf(j)));
         OuterList outerList = null;
         Optional<OuterList> optionalDataObject;
         CheckedFuture<Optional<OuterList>, ReadFailedException> submitFuture = tx.read(LogicalDatastoreType.OPERATIONAL, iid);
@@ -105,7 +106,7 @@ public class SimpleTxCrudMonitor {
 
         InstanceIdentifier<InnerList> iid = InstanceIdentifier.create(TestExec.class)
                 .child(OuterList.class, new OuterListKey(String.valueOf(j)))
-                .child(InnerList.class, new InnerListKey(String.valueOf( k )));
+                .child(InnerList.class, new InnerListKey(String.valueOf(k)));
         InnerList innerList = null;
 
         /**
@@ -115,11 +116,11 @@ public class SimpleTxCrudMonitor {
             Optional<InnerList> optionalDataObject = tx.read(LogicalDatastoreType.OPERATIONAL, iid).checkedGet();
             if (optionalDataObject != null && optionalDataObject.isPresent()) {
                 innerList = optionalDataObject.get();
-                if (!innerList.getId().contentEquals(String.valueOf( k )) || !innerList.getValue().contentEquals(String.valueOf(k))) {
+                if (!innerList.getId().contentEquals(String.valueOf(k)) || !innerList.getValue().contentEquals(String.valueOf(k))) {
                     return null;
                 }
             }
-        }  catch (ReadFailedException e) {
+        } catch (ReadFailedException e) {
             LOG.warn("failed to ....", e);
         } finally {
             tx.close();
@@ -152,7 +153,7 @@ public class SimpleTxCrudMonitor {
         return innerList;
     }
 
-    private  void createOuterList(int j, int k) {
+    private void createOuterList(int j, int k) {
 
         WriteTransaction tx = dataBroker.newWriteOnlyTransaction();
 
@@ -171,9 +172,9 @@ public class SimpleTxCrudMonitor {
         }
 
         OuterList outerList = new OuterListBuilder()
-                .setId(String.valueOf( j ))
+                .setId(String.valueOf(j))
                 .setInnerList(innerListList)
-                .setKey(new OuterListKey(String.valueOf( j )))
+                .setKey(new OuterListKey(String.valueOf(j)))
                 .build();
         ol_iid = InstanceIdentifier.create(TestExec.class)
                 .child(OuterList.class, outerList.getKey());
@@ -210,12 +211,12 @@ public class SimpleTxCrudMonitor {
 
 
         ol_iid = InstanceIdentifier.create(TestExec.class)
-                .child(OuterList.class, new OuterListKey(String.valueOf( j )));
+                .child(OuterList.class, new OuterListKey(String.valueOf(j)));
         tx.delete(LogicalDatastoreType.OPERATIONAL, ol_iid);
 
         InstanceIdentifier<InnerList> il_iid = InstanceIdentifier.create(TestExec.class)
-                .child(OuterList.class, new OuterListKey(String.valueOf( 0 )))
-                .child(InnerList.class, new InnerListKey(String.valueOf( j )));
+                .child(OuterList.class, new OuterListKey(String.valueOf(0)))
+                .child(InnerList.class, new InnerListKey(String.valueOf(j)));
         tx.delete(LogicalDatastoreType.OPERATIONAL, il_iid);
 
         try {

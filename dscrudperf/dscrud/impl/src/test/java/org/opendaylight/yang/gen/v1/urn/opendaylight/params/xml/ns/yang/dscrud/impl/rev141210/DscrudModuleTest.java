@@ -46,7 +46,7 @@ public class DscrudModuleTest {
         AutoCloseable closeable = module.getInstance();
 
         // verify that the module registered the returned provider with the broker
-        verify(broker).registerProvider((DscrudProvider)closeable);
+        verify(broker).registerProvider((DscrudProvider) closeable);
 
         // ensure no exceptions on close
         closeable.close();

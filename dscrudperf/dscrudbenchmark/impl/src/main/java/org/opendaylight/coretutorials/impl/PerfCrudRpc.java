@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.dscrud.rev150105.DoCrudInput;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.dscrud.rev150105.DoCrudInputBuilder;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.dscrud.rev150105.DoCrudOutput;
@@ -37,9 +38,11 @@ public class PerfCrudRpc {
     private synchronized Integer getNextQ() {
         return nextQueueId++;
     }
+
     private synchronized void incNumSuccessful() {
         ++numSuccessful;
     }
+
     private synchronized void incNumComplete() {
         ++numComplete;
     }
@@ -50,16 +53,17 @@ public class PerfCrudRpc {
     }
 
     private ArrayList<ArrayList<Integer>> resourceIdQueues;
+
     private void buildResourceIdQueues(int numQueues, int numResources) {
         resourceIdQueues = new ArrayList<ArrayList<Integer>>(numQueues);
         for (int i = 0; i < numQueues; ++i) {
-            ArrayList<Integer> resourceArray = new ArrayList<Integer>(numResources/numQueues+1);
+            ArrayList<Integer> resourceArray = new ArrayList<Integer>(numResources / numQueues + 1);
             resourceIdQueues.add(resourceArray);
         }
         for (int i = 0; i < numResources; i++) {
-            int q = i%numQueues;
+            int q = i % numQueues;
             ArrayList<Integer> resourceArray = resourceIdQueues.get(q);
-            resourceArray.add(i+1);
+            resourceArray.add(i + 1);
         }
     }
 
@@ -68,10 +72,11 @@ public class PerfCrudRpc {
      * each of the created resources, then update each of the resources, then finally delete each of the originally
      * created resources.  This test creates resources under a special cseBase that has been specially designed
      * to hold resoources for this performance test.  The other cseBase's in the system are unaffected.
-     *
+     * <p>
      * I was thinking that when one deploys this feature, they might want to have some notion of how well it will
      * perform in their environment.  Conceivably, an administration/diagnostic function could be implemented that
      * would invoke the rpc with some number of resources, and the operator could know what performance to expect.
+     *
      * @param numResources
      * @return
      */
@@ -82,7 +87,7 @@ public class PerfCrudRpc {
         totalSuccessful += retrieveTest(numResources, numThreads);
         totalSuccessful += deleteTest(numResources, numThreads);
 
-        return (numResources*3) == totalSuccessful;
+        return (numResources * 3) == totalSuccessful;
     }
 
 
@@ -116,7 +121,7 @@ public class PerfCrudRpc {
             }
         }
         endTime = System.nanoTime();
-        delta = (endTime-startTime);
+        delta = (endTime - startTime);
         createsPerSec = nPerSecond(numResources, delta);
         LOG.info("Time to create ... num/total: {}/{}, delta: {}ns, ops/s: {}", numSuccessful, numResources, delta, createsPerSec);
 
@@ -153,8 +158,8 @@ public class PerfCrudRpc {
 
         DoCrudInput input = new DoCrudInputBuilder()
                 .setOperation(DoCrudInput.Operation.CREATE)
-                .setOuterElementId((long)resourceId)
-                .setInnerElements((long)innerElements)
+                .setOuterElementId((long) resourceId)
+                .setInnerElements((long) innerElements)
                 .build();
         boolean success = true;
         try {
@@ -176,8 +181,8 @@ public class PerfCrudRpc {
     private boolean retrieveOneTest(Integer resourceId) {
         DoCrudInput input = new DoCrudInputBuilder()
                 .setOperation(DoCrudInput.Operation.READ)
-                .setOuterElementId((long)resourceId)
-                .setInnerElements((long)innerElements)
+                .setOuterElementId((long) resourceId)
+                .setInnerElements((long) innerElements)
                 .build();
         boolean success = true;
         try {
@@ -226,7 +231,7 @@ public class PerfCrudRpc {
             }
         }
         endTime = System.nanoTime();
-        delta = (endTime-startTime);
+        delta = (endTime - startTime);
         retrievesPerSec = nPerSecond(numResources, delta);
         LOG.info("Time to retrieve ... num/total: {}/{}, delta: {}ns, ops/s: {}", numSuccessful, numResources, delta, retrievesPerSec);
 
@@ -238,8 +243,8 @@ public class PerfCrudRpc {
     private boolean deleteOneTest(Integer resourceId) {
         DoCrudInput input = new DoCrudInputBuilder()
                 .setOperation(DoCrudInput.Operation.DELETE)
-                .setOuterElementId((long)resourceId)
-                .setInnerElements((long)innerElements)
+                .setOuterElementId((long) resourceId)
+                .setInnerElements((long) innerElements)
                 .build();
         boolean success = true;
         try {
@@ -288,7 +293,7 @@ public class PerfCrudRpc {
             }
         }
         endTime = System.nanoTime();
-        delta = (endTime-startTime);
+        delta = (endTime - startTime);
         deletesPerSec = nPerSecond(numResources, delta);
         LOG.info("Time to delete ... num/total: {}/{}, delta: {}ns, ops/s: {}", numSuccessful, numResources, delta, deletesPerSec);
 
@@ -299,8 +304,8 @@ public class PerfCrudRpc {
 
     private long nPerSecond(int num, long delta) {
 
-        double secondsTotal = (double)delta / (double)1000000000;
-        return (long) (((double)num / secondsTotal));
+        double secondsTotal = (double) delta / (double) 1000000000;
+        return (long) (((double) num / secondsTotal));
 
 
     }

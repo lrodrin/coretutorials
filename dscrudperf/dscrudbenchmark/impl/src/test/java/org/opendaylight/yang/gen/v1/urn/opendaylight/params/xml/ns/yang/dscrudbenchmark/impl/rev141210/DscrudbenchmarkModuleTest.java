@@ -46,7 +46,7 @@ public class DscrudbenchmarkModuleTest {
         AutoCloseable closeable = module.getInstance();
 
         // verify that the module registered the returned provider with the broker
-        verify(broker).registerProvider((DscrudbenchmarkProvider)closeable);
+        verify(broker).registerProvider((DscrudbenchmarkProvider) closeable);
 
         // ensure no exceptions on close
         closeable.close();

@@ -2,7 +2,7 @@
 <project name="singletonhs">
     <body>
         <menu name="Overview">
-            <item name="Javadocs" href="apidocs/index.html" />
+            <item name="Javadocs" href="apidocs/index.html"/>
         </menu>
     </body>
 </project>

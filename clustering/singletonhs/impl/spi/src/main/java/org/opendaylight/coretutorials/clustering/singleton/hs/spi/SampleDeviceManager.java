@@ -12,9 +12,11 @@ import com.google.common.base.Preconditions;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
 import org.opendaylight.controller.md.sal.binding.api.ClusteredDataTreeChangeListener;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.md.sal.binding.api.DataObjectModification;
@@ -38,14 +40,13 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author jmedved
- *
  */
 public final class SampleDeviceManager
         implements ClusteredDataTreeChangeListener<SampleNode>, SampleServicesProvider, AutoCloseable {
     protected static final Logger LOG = LoggerFactory.getLogger(SampleDeviceManager.class);
 
     private final static InstanceIdentifier<SampleNode> wildCardSampleNodePath = InstanceIdentifier
-        .create(NetworkTopology.class).child(Topology.class).child(Node.class).augmentation(SampleNode.class);
+            .create(NetworkTopology.class).child(Topology.class).child(Node.class).augmentation(SampleNode.class);
 
     protected final ConcurrentMap<InstanceIdentifier<SampleNode>, SampleDeviceContext> contexts = new ConcurrentHashMap<>();
     private ListenerRegistration<SampleDeviceManager> dataChangeListenerRegistration;
@@ -55,7 +56,7 @@ public final class SampleDeviceManager
     private final ClusterSingletonServiceProvider clusterSingletonServiceProvider;
 
     SampleDeviceManager(final DataBroker dataBroker, final RpcProviderRegistry rpcProviderRegistry,
-            final ClusterSingletonServiceProvider clusterSingletonServiceProvider) {
+                        final ClusterSingletonServiceProvider clusterSingletonServiceProvider) {
         this.dataBroker = Preconditions.checkNotNull(dataBroker);
         this.rpcProviderRegistry = Preconditions.checkNotNull(rpcProviderRegistry);
         this.clusterSingletonServiceProvider = Preconditions.checkNotNull(clusterSingletonServiceProvider);
@@ -71,35 +72,35 @@ public final class SampleDeviceManager
             final ModificationType dataModifType = dataModif.getModificationType();
             final InstanceIdentifier<SampleNode> dataModifIdent = modif.getRootPath().getRootIdentifier();
             switch (dataModif.getModificationType()) {
-            case WRITE:
-                if (contexts.containsKey(dataModifIdent)) {
-                    LOG.info("We have relevant context up");
-                    final ListenableFuture<Void> future = stopDeviceContext(dataModifIdent);
-                    Futures.addCallback(future, new FutureCallback<Void>() {
+                case WRITE:
+                    if (contexts.containsKey(dataModifIdent)) {
+                        LOG.info("We have relevant context up");
+                        final ListenableFuture<Void> future = stopDeviceContext(dataModifIdent);
+                        Futures.addCallback(future, new FutureCallback<Void>() {
 
-                        @Override
-                        public void onSuccess(final Void result) {
-                            startDeviceContext(dataModifIdent, dataModif.getDataAfter());
-                        }
+                            @Override
+                            public void onSuccess(final Void result) {
+                                startDeviceContext(dataModifIdent, dataModif.getDataAfter());
+                            }
 
-                        @Override
-                        public void onFailure(final Throwable t) {
-                            startDeviceContext(dataModifIdent, dataModif.getDataAfter());
-                        }
-                    });
-                } else {
-                    startDeviceContext(dataModifIdent, dataModif.getDataAfter());
-                }
-                break;
-            case DELETE:
-                stopDeviceContext(dataModifIdent);
-                break;
-            case SUBTREE_MODIFIED:
-                LOG.info("SubTree Modification - no action for Node {}", dataModifIdent);
-                break;
-            default:
-                LOG.error("Unexpected ModificationType {} for Node {}", dataModifType, dataModifIdent);
-                break;
+                            @Override
+                            public void onFailure(final Throwable t) {
+                                startDeviceContext(dataModifIdent, dataModif.getDataAfter());
+                            }
+                        });
+                    } else {
+                        startDeviceContext(dataModifIdent, dataModif.getDataAfter());
+                    }
+                    break;
+                case DELETE:
+                    stopDeviceContext(dataModifIdent);
+                    break;
+                case SUBTREE_MODIFIED:
+                    LOG.info("SubTree Modification - no action for Node {}", dataModifIdent);
+                    break;
+                default:
+                    LOG.error("Unexpected ModificationType {} for Node {}", dataModifType, dataModifIdent);
+                    break;
             }
         }
     }

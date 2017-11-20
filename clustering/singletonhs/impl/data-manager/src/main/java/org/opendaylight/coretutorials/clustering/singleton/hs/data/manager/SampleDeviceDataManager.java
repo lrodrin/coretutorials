@@ -12,9 +12,11 @@ import com.google.common.base.Preconditions;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
 import org.opendaylight.controller.md.sal.binding.api.ClusteredDataTreeChangeListener;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.md.sal.binding.api.DataObjectModification;
@@ -37,7 +39,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author jmedved
- *
  */
 class SampleDeviceDataManager implements ClusteredDataTreeChangeListener<SampleNode>, AutoCloseable {
 
@@ -56,8 +57,8 @@ class SampleDeviceDataManager implements ClusteredDataTreeChangeListener<SampleN
     private ListenerRegistration<SampleDeviceDataManager> listenerRegistration;
 
     SampleDeviceDataManager(final DataBroker dataBroker, final RpcProviderRegistry rpcProviderRegistry,
-            final ClusterSingletonServiceProvider clusterSingletonServiceProvider,
-            final SampleServicesProvider sampleServiceProvider) {
+                            final ClusterSingletonServiceProvider clusterSingletonServiceProvider,
+                            final SampleServicesProvider sampleServiceProvider) {
         this.dataBroker = Preconditions.checkNotNull(dataBroker);
         this.rpcProviderRegistry = Preconditions.checkNotNull(rpcProviderRegistry);
         this.clusterSingletonServiceProvider = Preconditions.checkNotNull(clusterSingletonServiceProvider);
@@ -75,35 +76,35 @@ class SampleDeviceDataManager implements ClusteredDataTreeChangeListener<SampleN
             final InstanceIdentifier<SampleNode> dataModifIdent = modif.getRootPath().getRootIdentifier();
             final NodeKey nodeKey = dataModifIdent.firstKeyOf(Node.class);
             switch (dataModif.getModificationType()) {
-            case WRITE:
-                if (contexts.containsKey(nodeKey)) {
-                    LOG.info("We have relevant context up");
-                    final ListenableFuture<Void> future = stopDeviceForwardingRulesContext(nodeKey);
-                    Futures.addCallback(future, new FutureCallback<Void>() {
+                case WRITE:
+                    if (contexts.containsKey(nodeKey)) {
+                        LOG.info("We have relevant context up");
+                        final ListenableFuture<Void> future = stopDeviceForwardingRulesContext(nodeKey);
+                        Futures.addCallback(future, new FutureCallback<Void>() {
 
-                        @Override
-                        public void onSuccess(final Void result) {
-                            startDeviceForwardingRulesContext(dataModifIdent, dataModif.getDataAfter());
-                        }
+                            @Override
+                            public void onSuccess(final Void result) {
+                                startDeviceForwardingRulesContext(dataModifIdent, dataModif.getDataAfter());
+                            }
 
-                        @Override
-                        public void onFailure(final Throwable t) {
-                            startDeviceForwardingRulesContext(dataModifIdent, dataModif.getDataAfter());
-                        }
-                    });
-                } else {
-                    startDeviceForwardingRulesContext(dataModifIdent, dataModif.getDataAfter());
-                }
-                break;
-            case DELETE:
-                stopDeviceForwardingRulesContext(nodeKey);
-                break;
-            case SUBTREE_MODIFIED:
-                LOG.info("SubTree Modification - no action for Node {}", dataModifIdent);
-                break;
-            default:
-                LOG.error("Unexpected ModificationType {} for Node {}", dataModifType, dataModifIdent);
-                break;
+                            @Override
+                            public void onFailure(final Throwable t) {
+                                startDeviceForwardingRulesContext(dataModifIdent, dataModif.getDataAfter());
+                            }
+                        });
+                    } else {
+                        startDeviceForwardingRulesContext(dataModifIdent, dataModif.getDataAfter());
+                    }
+                    break;
+                case DELETE:
+                    stopDeviceForwardingRulesContext(nodeKey);
+                    break;
+                case SUBTREE_MODIFIED:
+                    LOG.info("SubTree Modification - no action for Node {}", dataModifIdent);
+                    break;
+                default:
+                    LOG.error("Unexpected ModificationType {} for Node {}", dataModifType, dataModifIdent);
+                    break;
             }
         }
     }

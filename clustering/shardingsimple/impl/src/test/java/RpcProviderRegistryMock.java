@@ -5,6 +5,7 @@
  * terms of the Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  */
+
 import org.opendaylight.controller.md.sal.common.api.routing.RouteChangeListener;
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker.RoutedRpcRegistration;
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker.RpcRegistration;
@@ -24,7 +25,7 @@ public class RpcProviderRegistryMock implements RpcProviderRegistry {
 
     @Override
     public <L extends RouteChangeListener<RpcContextIdentifier,
-        InstanceIdentifier<?>>> ListenerRegistration<L> registerRouteChangeListener(
+            InstanceIdentifier<?>>> ListenerRegistration<L> registerRouteChangeListener(
             L listener) {
         // TODO Auto-generated method stub
         return null;
@@ -39,7 +40,7 @@ public class RpcProviderRegistryMock implements RpcProviderRegistry {
 
     @Override
     public <T extends RpcService> RoutedRpcRegistration<T> addRoutedRpcImplementation(Class<T> serviceInterface,
-            T implementation) throws IllegalStateException {
+                                                                                      T implementation) throws IllegalStateException {
         // TODO Auto-generated method stub
         return null;
     }

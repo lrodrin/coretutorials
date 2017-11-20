@@ -8,8 +8,10 @@
 package org.opendaylight.dhcp.server;
 
 import io.netty.channel.EventLoopGroup;
+
 import java.io.IOException;
 import java.util.List;
+
 import org.anarres.dhcp.common.address.InterfaceAddress;
 import org.apache.directory.server.dhcp.service.DhcpService;
 import org.apache.directory.server.dhcp.service.manager.LeaseManager;
@@ -29,8 +31,8 @@ public class DhcpServerDaemon {
     private final DataBroker dataBroker;
 
     public DhcpServerDaemon(final DataBroker dataBroker,
-                        final EventLoopGroup eventLoopGroup,final LeaseManager manager,
-                        final DhcpServerCfg dhcpServerCfg) {
+                            final EventLoopGroup eventLoopGroup, final LeaseManager manager,
+                            final DhcpServerCfg dhcpServerCfg) {
         this.dataBroker = dataBroker;
         this.eventLoopGroup = eventLoopGroup;
         final int port = dhcpServerCfg.getPort().getValue();
@@ -47,7 +49,7 @@ public class DhcpServerDaemon {
         if (networkInterfaces.contains("lo") || networkInterfaces.isEmpty()) {
             try {
                 dhcpServer.addInterface(InterfaceAddress.forString("127.0.0.1"));
-            } catch (IOException | InterruptedException  e) {
+            } catch (IOException | InterruptedException e) {
                 LOG.error("DHCP server on port {} failed to add network interface {}", port, e);
                 throw new IllegalStateException(e);
             }
@@ -57,7 +59,7 @@ public class DhcpServerDaemon {
         try {
             dhcpServer.addInterfaces(networkInterfaces.isEmpty() ? input -> true
                     : input -> networkInterfaces.contains(input.getName()));
-        } catch (IOException | InterruptedException  e) {
+        } catch (IOException | InterruptedException e) {
             LOG.error("DHCP server on port {} failed to add network interfaces: {}", port, e);
             throw new IllegalStateException(e);
         }
@@ -73,7 +75,7 @@ public class DhcpServerDaemon {
             dhcpServer.start(eventLoopGroup);
             LOG.info("new DHCP server started!!!");
         } catch (IOException | InterruptedException e) {
-            LOG.warn("dhcpServer start fail!",e);
+            LOG.warn("dhcpServer start fail!", e);
         }
     }
 
@@ -84,9 +86,9 @@ public class DhcpServerDaemon {
         try {
             dhcpServer.stop();
         } catch (IOException e) {
-            LOG.warn("dhcpServer stop fail!",e);
+            LOG.warn("dhcpServer stop fail!", e);
         } catch (InterruptedException e) {
-            LOG.warn("dhcpServer stop fail!",e);
+            LOG.warn("dhcpServer stop fail!", e);
         }
         LOG.info("DhcpProvider Closed");
     }

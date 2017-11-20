@@ -17,6 +17,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,8 +27,8 @@ public class HostInformation {
     private String hostName = "Host Name not specified";
     private final List<String> ipAddresses = new ArrayList<>();
 
-    /** Constructor where private fields for the class get initialized.
-     *
+    /**
+     * Constructor where private fields for the class get initialized.
      */
     public HostInformation() {
         // Get all IP addresses on all interfaces

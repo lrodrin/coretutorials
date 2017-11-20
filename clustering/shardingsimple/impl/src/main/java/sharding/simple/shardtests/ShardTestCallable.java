@@ -10,6 +10,7 @@ package sharding.simple.shardtests;
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
+
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -27,9 +28,10 @@ import org.slf4j.LoggerFactory;
 import sharding.simple.impl.DomListBuilder;
 import sharding.simple.impl.ShardHelper.ShardData;
 
-/** Provides function for multi-threaded pushing of test data to data store.
- * @author jmedved
+/**
+ * Provides function for multi-threaded pushing of test data to data store.
  *
+ * @author jmedved
  */
 public class ShardTestCallable implements Callable<Void> {
     private static final Logger LOG = LoggerFactory.getLogger(ShardTestCallable.class);
@@ -64,7 +66,7 @@ public class ShardTestCallable implements Callable<Void> {
 
         for (int i = 0; i < numItems; i++) {
             NodeIdentifierWithPredicates nodeId = new NodeIdentifierWithPredicates(InnerList.QNAME,
-                    DomListBuilder.IL_NAME, (long)i);
+                    DomListBuilder.IL_NAME, (long) i);
             MapEntryNode element;
             if (testData != null) {
                 element = testData.get(testDataIdx++);

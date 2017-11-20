@@ -58,7 +58,7 @@ public class SimpletxBaRead extends DatastoreAbstractWriter {
 
             OuterList outerList;
             InstanceIdentifier<OuterList> iid = InstanceIdentifier.create(TestExec.class)
-                    .child(OuterList.class, new OuterListKey((int)l));
+                    .child(OuterList.class, new OuterListKey((int) l));
             Optional<OuterList> optionalDataObject;
             CheckedFuture<Optional<OuterList>, ReadFailedException> submitFuture = tx.read(LogicalDatastoreType.CONFIGURATION, iid);
             try {

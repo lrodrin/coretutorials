@@ -9,7 +9,9 @@
 package org.opendaylight.coretutorials.clustering.singleton.hs.spi;
 
 import com.google.common.base.Preconditions;
+
 import java.util.concurrent.Future;
+
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker.RoutedRpcRegistration;
 import org.opendaylight.coretutorials.clustering.singleton.hs.common.HostInformation;
 import org.opendaylight.coretutorials.clustering.singleton.hs.spi.SampleDeviceSetupBuilder.SampleDeviceSetup;
@@ -25,7 +27,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author jmedved
- *
  */
 class SingletonhsRpcTopoDiscoveryServiceImpl implements SingletonhsRpcTopoDiscoveryService, AutoCloseable {
 

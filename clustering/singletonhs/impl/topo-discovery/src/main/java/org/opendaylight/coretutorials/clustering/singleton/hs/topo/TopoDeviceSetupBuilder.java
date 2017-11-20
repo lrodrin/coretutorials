@@ -10,7 +10,9 @@
 package org.opendaylight.coretutorials.clustering.singleton.hs.topo;
 
 import com.google.common.base.Preconditions;
+
 import java.util.concurrent.ScheduledExecutorService;
+
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.sal.binding.api.RpcProviderRegistry;
 import org.opendaylight.coretutorials.clustering.singleton.hs.api.SampleServicesProvider;
@@ -22,7 +24,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author jmedved
- *
  */
 class TopoDeviceSetupBuilder {
     private static final Logger LOG = LoggerFactory.getLogger(TopoDeviceSetupBuilder.class);

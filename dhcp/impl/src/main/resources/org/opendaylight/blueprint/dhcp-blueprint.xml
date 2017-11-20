@@ -16,15 +16,15 @@ and is available at http://www.eclipse.org/legal/epl-v10.html
     <cm:property-placeholder persistent-id="org.opendaylight.controller.dhcpd" update-strategy="none">
         <cm:default-properties>
             <cm:property name="start-ip" value="10.0.0.1"/>
-            <cm:property name="start-v6ip" value="fe80::a00:27ff:fe4f:7b7f" />
+            <cm:property name="start-v6ip" value="fe80::a00:27ff:fe4f:7b7f"/>
             <cm:property name="serverid" value="999"/>
         </cm:default-properties>
     </cm:property-placeholder>
 
     <reference id="dataBroker"
                interface="org.opendaylight.controller.md.sal.binding.api.DataBroker"
-               odl:type="default" />
-    <reference id="globalWorkerGroup" interface="io.netty.channel.EventLoopGroup" odl:type="global-worker-group" />
+               odl:type="default"/>
+    <reference id="globalWorkerGroup" interface="io.netty.channel.EventLoopGroup" odl:type="global-worker-group"/>
 
     <bean id="leaseManager" class="org.opendaylight.dhcp.server.ExampleLeaseManager">
         <argument value="${start-ip}"/>
@@ -59,11 +59,11 @@ and is available at http://www.eclipse.org/legal/epl-v10.html
     <bean id="v6dhcpServer"
           class="org.opendaylight.dhcpv6.server.Dhcpv6ServerDaemon"
           init-method="init" destroy-method="close">
-        <argument ref="dataBroker" />
-        <argument ref="globalWorkerGroup" />
-        <argument ref="v6leaseManager" />
-        <argument value="${serverid}" />
-        <argument ref="dhcpConfig" />
+        <argument ref="dataBroker"/>
+        <argument ref="globalWorkerGroup"/>
+        <argument ref="v6leaseManager"/>
+        <argument value="${serverid}"/>
+        <argument ref="dhcpConfig"/>
     </bean>
 
 </blueprint>

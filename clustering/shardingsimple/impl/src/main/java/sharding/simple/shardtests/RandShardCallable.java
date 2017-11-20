@@ -24,11 +24,12 @@ import sharding.simple.impl.ShardHelper.ShardData;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-/** Provides function for randomly pushing of test data to data store with multi-thread.
- * @author kucnh
+/**
+ * Provides function for randomly pushing of test data to data store with multi-thread.
  *
+ * @author kucnh
  */
-public class RandShardCallable implements Callable<Void>{
+public class RandShardCallable implements Callable<Void> {
     private final static Logger LOG = LoggerFactory.getLogger(RandShardCallable.class);
 
     private final ShardData sd;
@@ -60,7 +61,7 @@ public class RandShardCallable implements Callable<Void>{
         } else LOG.error("The cursor is NULL");
 
         YangInstanceIdentifier.NodeIdentifierWithPredicates nodeId = new YangInstanceIdentifier.NodeIdentifierWithPredicates(InnerList.QNAME,
-                DomListBuilder.IL_NAME, (long)itemIndex);
+                DomListBuilder.IL_NAME, (long) itemIndex);
         MapEntryNode element;
 
         if (testData != null) element = testData.get(itemIndex);
@@ -103,7 +104,7 @@ public class RandShardCallable implements Callable<Void>{
             cursor.close();
         } else LOG.error("The cursor is NULL");
 
-        itemIndex ++;
+        itemIndex++;
 
         // Submit the last outstanding transaction even if it's empty and wait
         // for it to complete. This will flush all outstanding transactions to

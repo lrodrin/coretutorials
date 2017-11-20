@@ -9,6 +9,7 @@
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.opendaylight.controller.sal.binding.api.RpcProviderRegistry;

@@ -38,42 +38,42 @@ public class SimpletxBaDelete extends DatastoreAbstractWriter {
         // Dump the whole list into the data store in a single transaction
         // with <outerListElem> PUTs on the transaction
         SimpletxBaWrite dd = new SimpletxBaWrite(dataBroker,
-                                                 StartTestInput.Operation.PUT,
-                                                 outerListElem,
-                                                 innerListElem,
-                                                 outerListElem);
+                StartTestInput.Operation.PUT,
+                outerListElem,
+                innerListElem,
+                outerListElem);
         dd.createList();
         dd.executeList();
     }
 
     @Override
     public void executeList() {
-            WriteTransaction tx = dataBroker.newWriteOnlyTransaction();
-            long putCnt = 0;
+        WriteTransaction tx = dataBroker.newWriteOnlyTransaction();
+        long putCnt = 0;
 
-            for (long l = 0; l < outerListElem; l++) {
-                InstanceIdentifier<OuterList> iid = InstanceIdentifier.create(TestExec.class)
-                                                        .child(OuterList.class, new OuterListKey((int)l));
-                tx.delete(LogicalDatastoreType.CONFIGURATION, iid);
-                putCnt++;
-                if (putCnt == writesPerTx) {
-                    try {
-                        tx.submit().checkedGet();
-                        txOk++;
-                    } catch (TransactionCommitFailedException e) {
-                        LOG.error("Transaction failed: {}", e.toString());
-                        txError++;
-                    }
-                    tx = dataBroker.newWriteOnlyTransaction();
-                    putCnt = 0;
-                }
-            }
-            if (putCnt != 0) {
+        for (long l = 0; l < outerListElem; l++) {
+            InstanceIdentifier<OuterList> iid = InstanceIdentifier.create(TestExec.class)
+                    .child(OuterList.class, new OuterListKey((int) l));
+            tx.delete(LogicalDatastoreType.CONFIGURATION, iid);
+            putCnt++;
+            if (putCnt == writesPerTx) {
                 try {
                     tx.submit().checkedGet();
+                    txOk++;
                 } catch (TransactionCommitFailedException e) {
                     LOG.error("Transaction failed: {}", e.toString());
+                    txError++;
                 }
+                tx = dataBroker.newWriteOnlyTransaction();
+                putCnt = 0;
             }
+        }
+        if (putCnt != 0) {
+            try {
+                tx.submit().checkedGet();
+            } catch (TransactionCommitFailedException e) {
+                LOG.error("Transaction failed: {}", e.toString());
+            }
+        }
     }
 }

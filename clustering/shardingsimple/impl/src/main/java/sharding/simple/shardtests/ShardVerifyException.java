@@ -10,7 +10,6 @@ package sharding.simple.shardtests;
 
 /**
  * @author jmedved
- *
  */
 public class ShardVerifyException extends Exception {
 
@@ -39,7 +38,7 @@ public class ShardVerifyException extends Exception {
 
     /**
      * @param message: Exception message
-     * @param cause: Exception cause
+     * @param cause:   Exception cause
      */
     public ShardVerifyException(String message, Throwable cause) {
         super(message, cause);

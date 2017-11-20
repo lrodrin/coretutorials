@@ -21,19 +21,21 @@ import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Implementation of the example Local RPC service. "Local" means there is an
+/**
+ * Implementation of the example Local RPC service. "Local" means there is an
  * instance of the service on each cluster node, and RPCs issued on that node
  * are routed to the local instance.
  *
  * @author jmedved
- *
  */
 public class LocalRpcServiceImpl implements LocalRpcService {
     private static final Logger LOG = LoggerFactory.getLogger(LocalRpcServiceImpl.class);
     private final AtomicInteger rpcInvocations = new AtomicInteger(0);
     private final HostInformation hostInfo;
 
-    /** Constructor.
+    /**
+     * Constructor.
+     *
      * @param hostInfo: reference to an object that holds the example host
      *                  data returned in this service's response.
      */
@@ -60,12 +62,12 @@ public class LocalRpcServiceImpl implements LocalRpcService {
         }
 
         LocalRpcOutput output = new LocalRpcOutputBuilder()
-                                    .setOutputParam(outputString)
-                                    .setInvocations(rpcInvocations.incrementAndGet())
-                                    .setHostName(hostInfo.getHostName())
-                                    .setIpAddress(hostInfo.getIpAddresses())
-                                    .setJvmUptime(hostInfo.getJvmUptime())
-                                    .build();
+                .setOutputParam(outputString)
+                .setInvocations(rpcInvocations.incrementAndGet())
+                .setHostName(hostInfo.getHostName())
+                .setIpAddress(hostInfo.getIpAddresses())
+                .setJvmUptime(hostInfo.getJvmUptime())
+                .build();
         return RpcResultBuilder.success(output).buildFuture();
     }
 

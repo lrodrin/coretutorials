@@ -9,10 +9,12 @@
 package org.opendaylight.dhcpv6.server;
 
 import com.google.common.net.InetAddresses;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import javax.annotation.Nonnull;
+
 import org.anarres.dhcp.v6.Dhcp6Exception;
 import org.anarres.dhcp.v6.io.Dhcp6RequestContext;
 import org.anarres.dhcp.v6.messages.Dhcp6Message;
@@ -45,20 +47,24 @@ public class Examplev6LeaseManager extends AbstractDhcp6LeaseManager implements 
         }
     }
 
-    @Override protected boolean isAppropriate(final Dhcp6RequestContext dhcp6RequestContext, final DuidOption.Duid duid,
-        final int i, final InetAddress inetAddress) throws Dhcp6Exception.UnableToAnswerException {
+    @Override
+    protected boolean isAppropriate(final Dhcp6RequestContext dhcp6RequestContext, final DuidOption.Duid duid,
+                                    final int i, final InetAddress inetAddress) throws Dhcp6Exception.UnableToAnswerException {
         return true;
     }
 
-    @Override protected InetAddress newIp(final Dhcp6RequestContext dhcp6RequestContext, final DuidOption.Duid duid,
-        final IaOption iaOption) throws Dhcp6Exception {
+    @Override
+    protected InetAddress newIp(final Dhcp6RequestContext dhcp6RequestContext, final DuidOption.Duid duid,
+                                final IaOption iaOption) throws Dhcp6Exception {
         ip = InetAddresses.increment(ip);
         LOG.info("Examplev6LeaseManager.leaseMac leasing: {}", ip);
         return ip;
     }
 
-    @Nonnull @Override public Dhcp6Message requestInformation(final Dhcp6RequestContext requestContext,
-        final Dhcp6Message incomingMsg, final Dhcp6Message reply) throws Dhcp6Exception {
+    @Nonnull
+    @Override
+    public Dhcp6Message requestInformation(final Dhcp6RequestContext requestContext,
+                                           final Dhcp6Message incomingMsg, final Dhcp6Message reply) throws Dhcp6Exception {
         // Example specific options for the client
         final Dhcp6Options vendorSpecificOptions = new Dhcp6Options();
         vendorSpecificOptions.add(new VendorSpecificSuboption("example"));
@@ -73,12 +79,14 @@ public class Examplev6LeaseManager extends AbstractDhcp6LeaseManager implements 
             setData(example.getBytes(StandardCharsets.UTF_8));
         }
 
-        @Override public short getTag() {
+        @Override
+        public short getTag() {
             return 3;
         }
     }
 
-    @Override public void close() throws Exception {
+    @Override
+    public void close() throws Exception {
         // No resources to close
     }
 }

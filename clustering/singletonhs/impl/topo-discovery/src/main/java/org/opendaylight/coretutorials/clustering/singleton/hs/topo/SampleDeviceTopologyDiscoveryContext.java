@@ -11,8 +11,10 @@ package org.opendaylight.coretutorials.clustering.singleton.hs.topo;
 import com.google.common.base.Preconditions;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
+
 import org.opendaylight.coretutorials.clustering.singleton.hs.topo.TopoDeviceSetupBuilder.TopoDeviceSetup;
 import org.opendaylight.mdsal.singleton.common.api.ClusterSingletonService;
 import org.opendaylight.mdsal.singleton.common.api.ClusterSingletonServiceRegistration;
@@ -25,7 +27,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author jmedved
- *
  */
 class SampleDeviceTopologyDiscoveryContext implements ClusterSingletonService {
 

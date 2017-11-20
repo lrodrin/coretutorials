@@ -18,10 +18,11 @@ import org.opendaylight.mdsal.dom.api.DOMDataTreeListeningException;
 import org.opendaylight.yangtools.yang.data.api.schema.NormalizedNode;
 import org.opendaylight.yangtools.yang.data.api.schema.tree.DataTreeCandidate;
 
-/** A DataTreeChangeListener for testing. It doesn't do anything except
- *  for recording that it's been invoked.
- * @author jmedved
+/**
+ * A DataTreeChangeListener for testing. It doesn't do anything except
+ * for recording that it's been invoked.
  *
+ * @author jmedved
  */
 class ShardTestListener implements DOMDataTreeListener {
     private AtomicInteger dataTreeEventsOk = new AtomicInteger();
@@ -29,7 +30,7 @@ class ShardTestListener implements DOMDataTreeListener {
 
     @Override
     public void onDataTreeChanged(final Collection<DataTreeCandidate> collection,
-            final Map<DOMDataTreeIdentifier, NormalizedNode<?, ?>> map) {
+                                  final Map<DOMDataTreeIdentifier, NormalizedNode<?, ?>> map) {
         dataTreeEventsOk.incrementAndGet();
     }
 

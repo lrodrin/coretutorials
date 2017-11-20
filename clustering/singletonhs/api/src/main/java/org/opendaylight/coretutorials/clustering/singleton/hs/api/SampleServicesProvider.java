@@ -10,6 +10,7 @@ package org.opendaylight.coretutorials.clustering.singleton.hs.api;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.singletonhs.rpc.sample.node.action.rev160728.SingletonhsRpcSampleNodeActionService;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.singletonhs.rpc.topo.discovery.rev160728.SingletonhsRpcTopoDiscoveryService;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.singletonhs.sample.node.rev160722.SampleNode;
@@ -18,7 +19,6 @@ import org.opendaylight.yangtools.yang.binding.InstanceIdentifier;
 
 /**
  * @author jmedved
- *
  */
 public interface SampleServicesProvider {
 

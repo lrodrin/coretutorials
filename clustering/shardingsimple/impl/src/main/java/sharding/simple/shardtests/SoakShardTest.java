@@ -40,8 +40,8 @@ public class SoakShardTest extends AbstractShardTest {
     private final AtomicInteger txError = new AtomicInteger();
 
     SoakShardTest(Long numShards, Long numItems, Long operations, Long numListeners, Long opsPerTx,
-            LogicalDatastoreType dataStoreType, Boolean precreateTestData, ShardHelper shardHelper,
-            DOMDataTreeService dataTreeService) throws ShardTestException {
+                  LogicalDatastoreType dataStoreType, Boolean precreateTestData, ShardHelper shardHelper,
+                  DOMDataTreeService dataTreeService) throws ShardTestException {
         super(numShards, numItems, numListeners, opsPerTx, dataStoreType, precreateTestData,
                 shardHelper, dataTreeService);
         this.operations = operations;
@@ -70,12 +70,12 @@ public class SoakShardTest extends AbstractShardTest {
         int txSubmitted = 0;
         // Random rnd = new Random();
         ThreadLocalRandom rnd = ThreadLocalRandom.current();
-        int dataSetSize = (int)(numItems * numShards);
+        int dataSetSize = (int) (numItems * numShards);
         final long startTime = System.nanoTime();
 
         for (int op = 0; op < operations; op++) {
             int testDataIdx = rnd.nextInt(dataSetSize);
-            int shardIdx = testDataIdx % (int)numShards;
+            int shardIdx = testDataIdx % (int) numShards;
             long dataIdx = testDataIdx / numShards;
             // LOG.info("op {}: testDataIdx {}, shardIdx {}, dataIdx {}", op, testDataIdx, shardIdx, dataIdx);
 

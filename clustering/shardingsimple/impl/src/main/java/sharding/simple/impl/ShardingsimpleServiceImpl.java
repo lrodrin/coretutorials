@@ -34,9 +34,10 @@ import sharding.simple.shardtests.ShardTestFactory;
 import sharding.simple.shardtests.ShardTestFactory.ShardTestType;
 import sharding.simple.shardtests.ShardTestStats;
 
-/** Implements the shardingsimple RPC API.
- * @author jmedved
+/**
+ * Implements the shardingsimple RPC API.
  *
+ * @author jmedved
  */
 public class ShardingsimpleServiceImpl implements ShardingsimpleService, AutoCloseable {
     private static final Logger LOG = LoggerFactory.getLogger(ShardingsimpleServiceImpl.class);
@@ -45,7 +46,9 @@ public class ShardingsimpleServiceImpl implements ShardingsimpleService, AutoClo
     private final ShardTestFactory testFactory;
     private RpcRegistration<ShardingsimpleService> rpcReg;
 
-    /** Constructor.
+    /**
+     * Constructor.
+     *
      * @param rpcRegistry: reference to MD-SAL RPC Registry
      * @param testFactory: reference to the Shard Test Factory
      */
@@ -55,16 +58,16 @@ public class ShardingsimpleServiceImpl implements ShardingsimpleService, AutoClo
         this.testFactory = testFactory;
     }
 
-    /** Initialization - called when Blueprint container is coming up.
-     *
+    /**
+     * Initialization - called when Blueprint container is coming up.
      */
     public void init() {
         LOG.info("Registering Shardingsimple RPC service");
         rpcReg = rpcRegistry.addRpcImplementation(ShardingsimpleService.class, this);
     }
 
-    /** cleaning-up everything.
-     *
+    /**
+     * cleaning-up everything.
      */
     @Override
     public void close() {
@@ -83,9 +86,9 @@ public class ShardingsimpleServiceImpl implements ShardingsimpleService, AutoClo
             }
 
             final List<Long> shardExecTime = new ArrayList<>();
-            shardExecTime.add((long)1);
-            shardExecTime.add((long)2);
-            shardExecTime.add((long)3);
+            shardExecTime.add((long) 1);
+            shardExecTime.add((long) 2);
+            shardExecTime.add((long) 3);
 
             final ShardTestOutput output = new ShardTestOutputBuilder()
                     .setStatus(Status.OK)
@@ -103,8 +106,8 @@ public class ShardingsimpleServiceImpl implements ShardingsimpleService, AutoClo
         } catch (Exception e) {
             LOG.error("Failed to create/execute Shard Test, {}", e);
             return RpcResultBuilder.success(new ShardTestOutputBuilder()
-                                                    .setStatus(Status.FAILED)
-                                                    .build()).buildFuture();
+                    .setStatus(Status.FAILED)
+                    .build()).buildFuture();
         }
     }
 }

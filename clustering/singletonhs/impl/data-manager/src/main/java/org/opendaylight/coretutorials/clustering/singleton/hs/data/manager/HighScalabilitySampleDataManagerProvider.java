@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author jmedved
- *
  */
 public class HighScalabilitySampleDataManagerProvider {
 
@@ -30,15 +29,15 @@ public class HighScalabilitySampleDataManagerProvider {
     /**
      * Method called when the blueprint container is created.
      *
-     * @param dataBroker : reference to the MD-SAL DataBroker
-     * @param rpcProviderRegistry : reference to MD-SAL RPC Provider Registry
+     * @param dataBroker                      : reference to the MD-SAL DataBroker
+     * @param rpcProviderRegistry             : reference to MD-SAL RPC Provider Registry
      * @param clusterSingletonServiceProvider : reference to MD-SAL Cluster Singleton Service
-     * @param sampleServiceProvider : All device RPCs holder
+     * @param sampleServiceProvider           : All device RPCs holder
      */
     public HighScalabilitySampleDataManagerProvider(final DataBroker dataBroker,
-            final RpcProviderRegistry rpcProviderRegistry,
-            final ClusterSingletonServiceProvider clusterSingletonServiceProvider,
-            final SampleServicesProvider sampleServiceProvider) {
+                                                    final RpcProviderRegistry rpcProviderRegistry,
+                                                    final ClusterSingletonServiceProvider clusterSingletonServiceProvider,
+                                                    final SampleServicesProvider sampleServiceProvider) {
         LOG.info("HighScalabilitySampleFrmProvider Session Initiated");
         Preconditions.checkState(sampleDeviceForwardingRulesManager == null, "we have instance of SFRM");
         sampleDeviceForwardingRulesManager = new SampleDeviceDataManager(dataBroker, rpcProviderRegistry,
@@ -47,6 +46,7 @@ public class HighScalabilitySampleDataManagerProvider {
 
     /**
      * Method called when the blueprint container is destroyed.
+     *
      * @throws Exception unexpected close exception
      */
     public void close() throws Exception {

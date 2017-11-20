@@ -18,17 +18,18 @@ import org.opendaylight.yangtools.yang.data.api.schema.tree.DataTreeCandidate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** A DataTreeChangeListener for validation of data pushed into the data
- *  store during the shard test.
- * @author jmedved
+/**
+ * A DataTreeChangeListener for validation of data pushed into the data
+ * store during the shard test.
  *
+ * @author jmedved
  */
 public class ValidationListener implements DOMDataTreeListener {
     private static final Logger LOG = LoggerFactory.getLogger(RoundRobinShardTest.class);
 
     @Override
     public void onDataTreeChanged(final Collection<DataTreeCandidate> collection,
-            final Map<DOMDataTreeIdentifier, NormalizedNode<?, ?>> map) {
+                                  final Map<DOMDataTreeIdentifier, NormalizedNode<?, ?>> map) {
         LOG.warn("Received onDataTreeChanged {}, data: {}", collection, map);
     }
 

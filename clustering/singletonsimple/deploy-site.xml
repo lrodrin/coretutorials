@@ -7,44 +7,46 @@
     terms of the Eclipse Public License v1.0 which accompanies this distribution,
     and is available at http://www.eclipse.org/legal/epl-v10.html
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.opendaylight.coretutorials.clustering</groupId>
-  <artifactId>deploy-site</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
-  <packaging>pom</packaging>
+    <groupId>org.opendaylight.coretutorials.clustering</groupId>
+    <artifactId>deploy-site</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-  <properties>
-    <stream>latest</stream>
-    <nexus.site.url>dav:https://nexus.opendaylight.org/content/sites/site/${project.groupId}/${stream}/</nexus.site.url>
-  </properties>
+    <properties>
+        <stream>latest</stream>
+        <nexus.site.url>dav:https://nexus.opendaylight.org/content/sites/site/${project.groupId}/${stream}/
+        </nexus.site.url>
+    </properties>
 
-  <build>
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-         <artifactId>wagon-webdav-jackrabbit</artifactId>
-         <version>2.9</version>
-      </extension>
-    </extensions>
+    <build>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-webdav-jackrabbit</artifactId>
+                <version>2.9</version>
+            </extension>
+        </extensions>
 
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <version>3.4</version>
-        <configuration>
-          <inputDirectory>${project.build.directory}/staged-site</inputDirectory>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.4</version>
+                <configuration>
+                    <inputDirectory>${project.build.directory}/staged-site</inputDirectory>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
-  <distributionManagement>
-    <site>
-      <id>opendaylight-site</id>
-      <url>${nexus.site.url}</url>
-    </site>
-  </distributionManagement>
+    <distributionManagement>
+        <site>
+            <id>opendaylight-site</id>
+            <url>${nexus.site.url}</url>
+        </site>
+    </distributionManagement>
 </project>

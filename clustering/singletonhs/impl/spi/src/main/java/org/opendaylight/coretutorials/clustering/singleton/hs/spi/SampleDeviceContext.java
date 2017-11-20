@@ -105,7 +105,7 @@ class SampleDeviceContext implements ClusterSingletonService {
         return future;
     }
 
-    class TransactionGuardian implements TransactionChainListener{
+    class TransactionGuardian implements TransactionChainListener {
 
         // TODO finalize it with fresh head ... this isn't good sample
 
@@ -144,7 +144,7 @@ class SampleDeviceContext implements ClusterSingletonService {
 
         @Override
         public void onTransactionChainFailed(final TransactionChain<?, ?> chain, final AsyncTransaction<?, ?> transaction,
-                final Throwable cause) {
+                                             final Throwable cause) {
             synchronized (TX_LOCK) {
                 tx = null;
                 txChain = deviceSetup.getDataBroker().createTransactionChain(this);

@@ -31,7 +31,7 @@ public class CustomisableLeaseManagerDhcpv6Service extends LeaseManagerDhcp6Serv
     private final Dhcp6Options dhcpv6ReplyOptions;
 
     public CustomisableLeaseManagerDhcpv6Service(Dhcp6LeaseManager leaseManager, byte[] serverDuid,
-            List<DefaultOption> options) {
+                                                 List<DefaultOption> options) {
         super(leaseManager, new DuidOption.Duid(serverDuid));
         dhcpv6AdvertiseOptions = new Dhcp6Options();
         dhcpv6ReplyOptions = new Dhcp6Options();

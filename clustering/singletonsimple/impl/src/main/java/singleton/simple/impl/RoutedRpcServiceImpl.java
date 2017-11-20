@@ -22,13 +22,13 @@ import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Implementation of the example routed RPC service. There is only one active
+/**
+ * Implementation of the example routed RPC service. There is only one active
  * instance of the service in the whole cluster at any given time.  RPC
  * requests issued on any node in the cluster are routed to the active RPC
  * service instance.
  *
  * @author jmedved
- *
  */
 public class RoutedRpcServiceImpl implements RoutedRpcService {
     private static final Logger LOG = LoggerFactory.getLogger(RoutedRpcServiceImpl.class);
@@ -36,7 +36,9 @@ public class RoutedRpcServiceImpl implements RoutedRpcService {
     private final HostInformation hostInfo;
 
 
-    /** Constructor.
+    /**
+     * Constructor.
+     *
      * @param hostInfo: reference to an object that holds host data shown by this service
      */
     public RoutedRpcServiceImpl(HostInformation hostInfo) {
@@ -62,12 +64,12 @@ public class RoutedRpcServiceImpl implements RoutedRpcService {
         }
 
         RoutedRpcOutput output = new RoutedRpcOutputBuilder()
-                                    .setOutputParam(outputString)
-                                    .setInvocations(rpcInvocations.incrementAndGet())
-                                    .setHostName(hostInfo.getHostName())
-                                    .setIpAddress(hostInfo.getIpAddresses())
-                                    .setJvmUptime(hostInfo.getJvmUptime())
-                                    .build();
+                .setOutputParam(outputString)
+                .setInvocations(rpcInvocations.incrementAndGet())
+                .setHostName(hostInfo.getHostName())
+                .setIpAddress(hostInfo.getIpAddresses())
+                .setJvmUptime(hostInfo.getJvmUptime())
+                .build();
         return RpcResultBuilder.success(output).buildFuture();
     }
 

@@ -23,29 +23,32 @@ import sharding.simple.shardtests.ShardTestStats.TestStatus;
 import java.util.List;
 import java.util.concurrent.*;
 
-/** Performs test where there each shard has its won thread that pushes data
+/**
+ * Performs test where there each shard has its won thread that pushes data
  * randomly into the shard.
- * @author kunch
  *
+ * @author kunch
  */
-public class RandomShardTest extends AbstractShardTest{
+public class RandomShardTest extends AbstractShardTest {
 
     private static final Logger LOG = LoggerFactory.getLogger(RandomShardTest.class);
 
     RandomShardTest(Long numShards, Long numItems, Long numListeners, Long opsPerTx,
-                         LogicalDatastoreType dataStoreType, Boolean precreateTestData, ShardHelper shardHelper,
-                         DOMDataTreeService dataTreeService) throws ShardTestException {
+                    LogicalDatastoreType dataStoreType, Boolean precreateTestData, ShardHelper shardHelper,
+                    DOMDataTreeService dataTreeService) throws ShardTestException {
 
         super(numShards, numItems, numListeners, opsPerTx, dataStoreType, precreateTestData, shardHelper,
                 dataTreeService);
         LOG.info("Created RandomShardTest");
     }
 
-    /** Pre-creates per-shard test data (InnerList elements) before the
-     *  measured test run and puts them in an array list for quick retrieval
-     *  during the test run.
-     *  @return the list of pre-created test elements that will be pushed
-     *          into the data store during the test run.
+    /**
+     * Pre-creates per-shard test data (InnerList elements) before the
+     * measured test run and puts them in an array list for quick retrieval
+     * during the test run.
+     *
+     * @return the list of pre-created test elements that will be pushed
+     * into the data store during the test run.
      */
     protected List<MapEntryNode> preCreateTestData() {
         final List<MapEntryNode> testData;
@@ -54,7 +57,7 @@ public class RandomShardTest extends AbstractShardTest{
             testData = Lists.newArrayList();
             for (int i = 0; i < numItems * numShards; i++) {
                 NodeIdentifierWithPredicates nodeId = new NodeIdentifierWithPredicates(InnerList.QNAME,
-                        DomListBuilder.IL_NAME, (long)i);
+                        DomListBuilder.IL_NAME, (long) i);
                 testData.add(createListEntry(nodeId, 1, i));
             }
             LOG.info("   Done. {} elements created.", testData.size());
@@ -73,7 +76,7 @@ public class RandomShardTest extends AbstractShardTest{
         int txOK = 0;
         int txError = 0;
         int txSubmitted = 0;
-        final ExecutorService executorService = Executors.newFixedThreadPool((int)numShards);
+        final ExecutorService executorService = Executors.newFixedThreadPool((int) numShards);
         boolean allThreadsCompleted = true;
         final long startTime = System.nanoTime();
 
@@ -84,7 +87,7 @@ public class RandomShardTest extends AbstractShardTest{
         }
 
         for (int i = 0; i < numShards * numItems; i++) {
-            rand = ThreadLocalRandom.current().nextInt(0, (int)numShards);
+            rand = ThreadLocalRandom.current().nextInt(0, (int) numShards);
             try {
                 Future<Void> future = executorService.submit(callables.get(rand));
                 if (future.isCancelled()) {

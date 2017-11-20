@@ -23,25 +23,25 @@ public final class BaListBuilder {
         List<OuterList> outerList = new ArrayList<OuterList>(outerElements);
         for (int j = 0; j < outerElements; j++) {
             outerList.add(new OuterListBuilder()
-                                .setId( j )
-                                .setInnerList(buildInnerList(j, innerElements))
-                                .setKey(new OuterListKey( j ))
-                                .build());
+                    .setId(j)
+                    .setInnerList(buildInnerList(j, innerElements))
+                    .setKey(new OuterListKey(j))
+                    .build());
         }
 
         return outerList;
     }
 
-    static private List<InnerList> buildInnerList( int index, int elements ) {
-        List<InnerList> innerList = new ArrayList<InnerList>( elements );
+    static private List<InnerList> buildInnerList(int index, int elements) {
+        List<InnerList> innerList = new ArrayList<InnerList>(elements);
 
         final String itemStr = "Item-" + String.valueOf(index) + "-";
-        for( int i = 0; i < elements; i++ ) {
+        for (int i = 0; i < elements; i++) {
             innerList.add(new InnerListBuilder()
-                                .setKey( new InnerListKey( i ) )
-                                .setName(i)
-                                .setValue( itemStr + String.valueOf( i ) )
-                                .build());
+                    .setKey(new InnerListKey(i))
+                    .setName(i)
+                    .setValue(itemStr + String.valueOf(i))
+                    .build());
         }
 
         return innerList;

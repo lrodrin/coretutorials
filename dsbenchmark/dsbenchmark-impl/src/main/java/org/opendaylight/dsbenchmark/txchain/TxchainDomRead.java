@@ -25,7 +25,7 @@ import org.opendaylight.yangtools.yang.data.api.schema.NormalizedNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TxchainDomRead extends DatastoreAbstractWriter implements TransactionChainListener{
+public class TxchainDomRead extends DatastoreAbstractWriter implements TransactionChainListener {
     private static final Logger LOG = LoggerFactory.getLogger(TxchainDomRead.class);
     private final DOMDataBroker domDataBroker;
 
@@ -59,10 +59,10 @@ public class TxchainDomRead extends DatastoreAbstractWriter implements Transacti
 
         YangInstanceIdentifier pid = YangInstanceIdentifier.builder().node(TestExec.QNAME).node(OuterList.QNAME).build();
         for (int l = 0; l < outerListElem; l++) {
-            NormalizedNode<?,?> ret;
+            NormalizedNode<?, ?> ret;
             YangInstanceIdentifier yid = pid.node(new NodeIdentifierWithPredicates(OuterList.QNAME, OL_ID, l));
-            Optional<NormalizedNode<?,?>> optionalDataObject;
-            CheckedFuture<Optional<NormalizedNode<?,?>>, ReadFailedException> submitFuture = tx.read(LogicalDatastoreType.CONFIGURATION, yid);
+            Optional<NormalizedNode<?, ?>> optionalDataObject;
+            CheckedFuture<Optional<NormalizedNode<?, ?>>, ReadFailedException> submitFuture = tx.read(LogicalDatastoreType.CONFIGURATION, yid);
             try {
                 optionalDataObject = submitFuture.checkedGet();
                 if (optionalDataObject != null && optionalDataObject.isPresent()) {

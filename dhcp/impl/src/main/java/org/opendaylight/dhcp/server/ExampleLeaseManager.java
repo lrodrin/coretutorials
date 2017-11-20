@@ -10,9 +10,11 @@ package org.opendaylight.dhcp.server;
 
 import com.google.common.io.BaseEncoding;
 import com.google.common.net.InetAddresses;
+
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+
 import org.anarres.dhcp.common.address.NetworkAddress;
 import org.anarres.dhcp.common.address.Subnet;
 import org.apache.directory.server.dhcp.DhcpException;
@@ -44,36 +46,41 @@ public class ExampleLeaseManager extends AbstractDynamicLeaseManager implements 
         }
     }
 
-    @Override protected InetAddress getFixedAddressFor(final HardwareAddress hardwareAddress) throws DhcpException {
+    @Override
+    protected InetAddress getFixedAddressFor(final HardwareAddress hardwareAddress) throws DhcpException {
         LOG.info("ExampleLeaseManager.getFixedAddressFor {}", hardwareAddress);
         return null;
     }
 
-    @Override protected Subnet getSubnetFor(final NetworkAddress networkAddress) throws DhcpException {
+    @Override
+    protected Subnet getSubnetFor(final NetworkAddress networkAddress) throws DhcpException {
         LOG.info("ExampleLeaseManager.getSubnetFor {}", networkAddress);
         return null;
     }
 
-    @Override protected boolean leaseIp(final InetAddress address, final HardwareAddress hardwareAddress,
-        final long ttl) throws Exception {
+    @Override
+    protected boolean leaseIp(final InetAddress address, final HardwareAddress hardwareAddress,
+                              final long ttl) throws Exception {
         LOG.info("ExampleLeaseManager.leaseIp {}, {}", address, hardwareAddress);
         return true;
     }
 
-    @Override protected InetAddress leaseMac(final DhcpRequestContext context, final DhcpMessage request,
-        final InetAddress clientRequestedAddress, final long ttl) throws Exception {
+    @Override
+    protected InetAddress leaseMac(final DhcpRequestContext context, final DhcpMessage request,
+                                   final InetAddress clientRequestedAddress, final long ttl) throws Exception {
         this.ip = InetAddresses.increment(ip);
         LOG.info("ExampleLeaseManager.leaseMac leasing: {}", ip);
         return ip;
     }
 
-    @Override public DhcpMessage leaseOffer(final DhcpRequestContext context, final DhcpMessage request,
-        final InetAddress clientRequestedAddress, final long clientRequestedExpirySecs) throws DhcpException {
+    @Override
+    public DhcpMessage leaseOffer(final DhcpRequestContext context, final DhcpMessage request,
+                                  final InetAddress clientRequestedAddress, final long clientRequestedExpirySecs) throws DhcpException {
         LOG.info("ExampleLeaseManager.leaseOffer request: {}, requested address: {}", request.getOptions(), clientRequestedAddress);
         request.getOptions().getStringOption(VendorClassIdentifier.class);
 
         final DhcpMessage dhcpMessage = super
-            .leaseOffer(context, request, clientRequestedAddress, clientRequestedExpirySecs);
+                .leaseOffer(context, request, clientRequestedAddress, clientRequestedExpirySecs);
 
         // Add some option
         final OptionsField options = dhcpMessage.getOptions();
@@ -83,7 +90,8 @@ public class ExampleLeaseManager extends AbstractDynamicLeaseManager implements 
         return dhcpMessage;
     }
 
-    @Override public void close() throws Exception {
+    @Override
+    public void close() throws Exception {
         // No resources to close
     }
 }

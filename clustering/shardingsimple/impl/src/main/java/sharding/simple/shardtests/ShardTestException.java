@@ -8,9 +8,10 @@
 
 package sharding.simple.shardtests;
 
-/** Thrown when something goes wrong with the ShardTest
- * @author jmedved
+/**
+ * Thrown when something goes wrong with the ShardTest
  *
+ * @author jmedved
  */
 public class ShardTestException extends Exception {
     /**
@@ -34,7 +35,7 @@ public class ShardTestException extends Exception {
 
     /**
      * @param message: Exception message
-     * @param cause: Exception cause
+     * @param cause:   Exception cause
      */
     public ShardTestException(String message, Throwable cause) {
         super(message, cause);

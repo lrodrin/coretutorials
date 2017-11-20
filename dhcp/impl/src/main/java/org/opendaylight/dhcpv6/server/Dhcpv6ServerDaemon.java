@@ -9,10 +9,12 @@ package org.opendaylight.dhcpv6.server;
 
 import com.google.common.primitives.Shorts;
 import io.netty.channel.EventLoopGroup;
+
 import java.io.IOException;
 import java.net.SocketException;
 import java.util.HashSet;
 import java.util.List;
+
 import org.anarres.dhcp.v6.service.Dhcp6LeaseManager;
 import org.anarres.dhcp.v6.service.Dhcp6Service;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
@@ -38,9 +40,9 @@ public class Dhcpv6ServerDaemon {
         final int port = dhcpServerCfg.getPort().getValue();
         final List<String> networkInterfaces = dhcpServerCfg.getNetworkInterface();
         dhcpService = new CustomisableLeaseManagerDhcpv6Service(manager, Shorts.toByteArray(serverId),
-            dhcpServerCfg.getDefaultOption());
+                dhcpServerCfg.getDefaultOption());
         try {
-            dhcpServer = new Dhcpv6Server(dhcpService,serverId, (short)port,new HashSet<>(networkInterfaces));
+            dhcpServer = new Dhcpv6Server(dhcpService, serverId, (short) port, new HashSet<>(networkInterfaces));
         } catch (SocketException | IllegalArgumentException e) {
             LOG.error("DHCP server on port {} failed to decode option arguments {}", port, e);
             throw new IllegalStateException(e);
@@ -57,7 +59,7 @@ public class Dhcpv6ServerDaemon {
             dhcpServer.start(eventLoopGroup);
             LOG.info("new DHCP server started!!!");
         } catch (InterruptedException e) {
-            LOG.warn("dhcpServer start fail!",e);
+            LOG.warn("dhcpServer start fail!", e);
         }
     }
 
@@ -67,8 +69,8 @@ public class Dhcpv6ServerDaemon {
     public void close() {
         try {
             dhcpServer.stop();
-        } catch (IOException | InterruptedException  e) {
-            LOG.warn("dhcpServer stop fail!",e);
+        } catch (IOException | InterruptedException e) {
+            LOG.warn("dhcpServer stop fail!", e);
         }
         LOG.info("DhcpProvider Closed");
     }

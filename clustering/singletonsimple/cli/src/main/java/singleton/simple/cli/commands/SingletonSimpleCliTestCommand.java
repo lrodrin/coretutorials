@@ -34,7 +34,7 @@ public class SingletonSimpleCliTestCommand extends AbstractAction {
      * The below argument is just an example and should be changed as per your requirements
      */
     @Option(name = "-tA",
-            aliases = { "--testArgument" },
+            aliases = {"--testArgument"},
             description = "test command argument",
             required = true,
             multiValued = false)

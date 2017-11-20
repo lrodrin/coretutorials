@@ -9,6 +9,7 @@
 package sharding.simple.shardtests;
 
 import com.google.common.collect.Lists;
+
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -28,28 +29,31 @@ import sharding.simple.impl.DomListBuilder;
 import sharding.simple.impl.ShardHelper;
 import sharding.simple.shardtests.ShardTestStats.TestStatus;
 
-/** Performs test where there each shard has its won thread that pushes data
+/**
+ * Performs test where there each shard has its won thread that pushes data
  * into the shard.
- * @author jmedved
  *
+ * @author jmedved
  */
 public class MultiThreadShardTest extends AbstractShardTest {
     private static final Logger LOG = LoggerFactory.getLogger(MultiThreadShardTest.class);
 
     MultiThreadShardTest(Long numShards, Long numItems, Long numListeners, Long opsPerTx,
-            LogicalDatastoreType dataStoreType, Boolean precreateTestData, ShardHelper shardHelper,
-            DOMDataTreeService dataTreeService) throws ShardTestException {
+                         LogicalDatastoreType dataStoreType, Boolean precreateTestData, ShardHelper shardHelper,
+                         DOMDataTreeService dataTreeService) throws ShardTestException {
 
         super(numShards, numItems, numListeners, opsPerTx, dataStoreType, precreateTestData, shardHelper,
                 dataTreeService);
         LOG.info("Created MultiThreadShardTest");
     }
 
-    /** Pre-creates per-shard test data (InnerList elements) before the
-     *  measured test run and puts them in an array list for quick retrieval
-     *  during the test run.
+    /**
+     * Pre-creates per-shard test data (InnerList elements) before the
+     * measured test run and puts them in an array list for quick retrieval
+     * during the test run.
+     *
      * @return: the list of pre-created test elements that will be pushed
-     *          into the data store during the test run.
+     * into the data store during the test run.
      */
     private List<MapEntryNode> preCreatePerShardTestData(int shardNum) {
         final List<MapEntryNode> testData;
@@ -58,7 +62,7 @@ public class MultiThreadShardTest extends AbstractShardTest {
             testData = Lists.newArrayList();
             for (int i = 0; i < numItems; i++) {
                 NodeIdentifierWithPredicates nodeId = new NodeIdentifierWithPredicates(InnerList.QNAME,
-                        DomListBuilder.IL_NAME, (long)i);
+                        DomListBuilder.IL_NAME, (long) i);
                 testData.add(createListEntry(nodeId, shardNum, i));
             }
             LOG.info("   Done. {} elements created.", testData.size());

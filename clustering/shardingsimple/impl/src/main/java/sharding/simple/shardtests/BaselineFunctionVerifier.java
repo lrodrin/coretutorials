@@ -39,10 +39,11 @@ import sharding.simple.impl.DomListBuilder;
 import sharding.simple.impl.ShardHelper;
 import sharding.simple.impl.ShardHelper.ShardData;
 
-/** Verifies basic multi-sharding functionality by creating two shards and
+/**
+ * Verifies basic multi-sharding functionality by creating two shards and
  * attempting to write into them.
- * @author jmedved
  *
+ * @author jmedved
  */
 public class BaselineFunctionVerifier {
     private static final Logger LOG = LoggerFactory.getLogger(RoundRobinShardTest.class);
@@ -51,16 +52,17 @@ public class BaselineFunctionVerifier {
         LOG.warn("BaselineFunctionVerifier created");
     }
 
-    /** Helper class that logs the content of the data that was pushed into
-     *  the data store.
-     * @author jmedved
+    /**
+     * Helper class that logs the content of the data that was pushed into
+     * the data store.
      *
+     * @author jmedved
      */
     private static class DumpDataToLogListener implements DOMDataTreeListener {
 
         @Override
         public void onDataTreeChanged(final Collection<DataTreeCandidate> collection,
-                final Map<DOMDataTreeIdentifier, NormalizedNode<?, ?>> map) {
+                                      final Map<DOMDataTreeIdentifier, NormalizedNode<?, ?>> map) {
             LOG.warn("Received onDataTreeChanged {}, data: {}", collection, map);
         }
 
@@ -71,11 +73,12 @@ public class BaselineFunctionVerifier {
 
     }
 
-    /** Verifies the very basic sharding function: writing data into
-     *  two shards. Also serves as example code for writing entire
-     *  objects into the data store at once.
+    /**
+     * Verifies the very basic sharding function: writing data into
+     * two shards. Also serves as example code for writing entire
+     * objects into the data store at once.
      *
-     * @param shardHelper: reference to shardHelper
+     * @param shardHelper:     reference to shardHelper
      * @param dataTreeService: reference to MD-SAL dataTreeService
      * @throws DOMDataTreeShardingConflictException when shard can't be created
      */
@@ -84,16 +87,16 @@ public class BaselineFunctionVerifier {
         LOG.info("Creating transaction chain tx1 for producer shardData[0]");
 
         final YangInstanceIdentifier yiId1 =
-            AbstractShardTest.TEST_DATA_ROOT_YID.node(new NodeIdentifierWithPredicates(OuterList.QNAME,
-            QName.create(OuterList.QNAME, "oid"),
-            1));
+                AbstractShardTest.TEST_DATA_ROOT_YID.node(new NodeIdentifierWithPredicates(OuterList.QNAME,
+                        QName.create(OuterList.QNAME, "oid"),
+                        1));
         final ShardData sd1 = shardHelper.createAndInitShard(LogicalDatastoreType.CONFIGURATION, yiId1);
 
         final DOMDataTreeCursorAwareTransaction tx1 = sd1.getProducer().createTransaction(false);
         final DOMDataTreeWriteCursor cursor1 = tx1.createCursor(sd1.getDOMDataTreeIdentifier());
         final YangInstanceIdentifier list1Yid =
-            sd1.getDOMDataTreeIdentifier().getRootIdentifier().node(InnerList.QNAME);
-        cursor1.write(list1Yid.getLastPathArgument(), DomListBuilder.buildInnerList((long)2, (long)10));
+                sd1.getDOMDataTreeIdentifier().getRootIdentifier().node(InnerList.QNAME);
+        cursor1.write(list1Yid.getLastPathArgument(), DomListBuilder.buildInnerList((long) 2, (long) 10));
         cursor1.enter(new NodeIdentifier(InnerList.QNAME));
         cursor1.close();
 
@@ -107,14 +110,14 @@ public class BaselineFunctionVerifier {
         LOG.info("Creating transaction chain tx2 for producer shardData[1]");
         final YangInstanceIdentifier yiId2 =
                 AbstractShardTest.TEST_DATA_ROOT_YID.node(new NodeIdentifierWithPredicates(OuterList.QNAME,
-                QName.create(OuterList.QNAME, "oid"),
-                2));
+                        QName.create(OuterList.QNAME, "oid"),
+                        2));
         ShardData sd2 = shardHelper.createAndInitShard(LogicalDatastoreType.CONFIGURATION, yiId2);
         final DOMDataTreeCursorAwareTransaction tx2 = sd2.getProducer().createTransaction(false);
         final DOMDataTreeWriteCursor cursor2 = tx2.createCursor(sd2.getDOMDataTreeIdentifier());
 
         LOG.info("Writing entire list2 to Shard2");
-        cursor2.write(new NodeIdentifier(InnerList.QNAME), DomListBuilder.buildInnerList((long)2, (long)10));
+        cursor2.write(new NodeIdentifier(InnerList.QNAME), DomListBuilder.buildInnerList((long) 2, (long) 10));
         cursor2.close();
 
         LOG.info("Submitting transaction tx2");

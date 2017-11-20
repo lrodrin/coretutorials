@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 
-public class TxchainDomDelete extends DatastoreAbstractWriter implements TransactionChainListener{
+public class TxchainDomDelete extends DatastoreAbstractWriter implements TransactionChainListener {
     private static final Logger LOG = LoggerFactory.getLogger(TxchainBaWrite.class);
     private final DOMDataBroker domDataBroker;
 
@@ -46,10 +46,10 @@ public class TxchainDomDelete extends DatastoreAbstractWriter implements Transac
         // Dump the whole list into the data store in a single transaction
         // with <outerListElem> PUTs on the transaction
         TxchainDomWrite dd = new TxchainDomWrite(domDataBroker,
-                                                 StartTestInput.Operation.PUT,
-                                                 outerListElem,
-                                                 innerListElem,
-                                                 outerListElem);
+                StartTestInput.Operation.PUT,
+                outerListElem,
+                innerListElem,
+                outerListElem);
         dd.createList();
         dd.executeList();
     }
@@ -77,6 +77,7 @@ public class TxchainDomDelete extends DatastoreAbstractWriter implements Transac
                     public void onSuccess(final Void result) {
                         txOk++;
                     }
+
                     @Override
                     public void onFailure(final Throwable t) {
                         LOG.error("Transaction failed, {}", t);
@@ -101,8 +102,7 @@ public class TxchainDomDelete extends DatastoreAbstractWriter implements Transac
         }
         try {
             chain.close();
-        }
-        catch (IllegalStateException e){
+        } catch (IllegalStateException e) {
             LOG.error("Transaction close failed,", e);
         }
         LOG.info("Transactions: submitted {}, completed {}", txSubmitted, (txOk + txError));
@@ -110,7 +110,7 @@ public class TxchainDomDelete extends DatastoreAbstractWriter implements Transac
 
     @Override
     public void onTransactionChainFailed(TransactionChain<?, ?> chain,
-            AsyncTransaction<?, ?> transaction, Throwable cause) {
+                                         AsyncTransaction<?, ?> transaction, Throwable cause) {
         LOG.error("Broken chain {} in TxchainDomDelete, transaction {}, cause {}",
                 chain, transaction.getIdentifier(), cause);
     }

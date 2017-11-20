@@ -8,16 +8,20 @@
 
 package sharding.simple.shardtests;
 
-/** Statistics generated from a shard test at the end of a test run.
- * @author jmedved
+/**
+ * Statistics generated from a shard test at the end of a test run.
  *
+ * @author jmedved
  */
 public class ShardTestStats {
-    /** The status from the test run, OK or ERROR.
-     * @author jmedved
+    /**
+     * The status from the test run, OK or ERROR.
      *
+     * @author jmedved
      */
-    public enum TestStatus { OK, ERROR }
+    public enum TestStatus {
+        OK, ERROR
+    }
 
     private final TestStatus status;
     private final long txOk;
@@ -28,7 +32,7 @@ public class ShardTestStats {
     private final long listenerEventsFail;
 
     ShardTestStats(TestStatus status, int txOk, int txError, int txSubmitted, long execTime,
-            long dataTreeEventsOk, long dataTreeEventsFail) {
+                   long dataTreeEventsOk, long dataTreeEventsFail) {
         this.status = status;
         this.txOk = txOk;
         this.txError = txError;

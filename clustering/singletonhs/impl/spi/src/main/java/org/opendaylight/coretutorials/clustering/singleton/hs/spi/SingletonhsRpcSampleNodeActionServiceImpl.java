@@ -10,9 +10,11 @@
 package org.opendaylight.coretutorials.clustering.singleton.hs.spi;
 
 import com.google.common.base.Preconditions;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
+
 import org.opendaylight.controller.md.sal.common.api.data.LogicalDatastoreType;
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker.RoutedRpcRegistration;
 import org.opendaylight.coretutorials.clustering.singleton.hs.spi.SampleDeviceContext.TransactionGuardian;
@@ -34,7 +36,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author jmedved
- *
  */
 public class SingletonhsRpcSampleNodeActionServiceImpl implements SingletonhsRpcSampleNodeActionService, AutoCloseable {
 

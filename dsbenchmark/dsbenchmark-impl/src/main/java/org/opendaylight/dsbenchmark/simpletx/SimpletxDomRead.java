@@ -58,15 +58,15 @@ public class SimpletxDomRead extends DatastoreAbstractWriter {
         DOMDataReadOnlyTransaction tx = domDataBroker.newReadOnlyTransaction();
 
         for (long l = 0; l < outerListElem; l++) {
-            NormalizedNode<?,?> ret = null;
+            NormalizedNode<?, ?> ret = null;
 
             YangInstanceIdentifier yid = YangInstanceIdentifier.builder()
                     .node(TestExec.QNAME)
                     .node(OuterList.QNAME)
                     .nodeWithKey(OuterList.QNAME, OL_ID, l)
                     .build();
-            Optional<NormalizedNode<?,?>> optionalDataObject;
-            CheckedFuture<Optional<NormalizedNode<?,?>>, ReadFailedException> submitFuture = tx.read(LogicalDatastoreType.CONFIGURATION, yid);
+            Optional<NormalizedNode<?, ?>> optionalDataObject;
+            CheckedFuture<Optional<NormalizedNode<?, ?>>, ReadFailedException> submitFuture = tx.read(LogicalDatastoreType.CONFIGURATION, yid);
             try {
                 optionalDataObject = submitFuture.checkedGet();
                 if (optionalDataObject != null && optionalDataObject.isPresent()) {
@@ -97,7 +97,8 @@ public class SimpletxDomRead extends DatastoreAbstractWriter {
                         }
                     }
                     txOk++;
-                }*/ else {
+                }*/
+                else {
                     txError++;
                     LOG.info("In the else part");
                 }

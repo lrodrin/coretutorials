@@ -18,11 +18,12 @@ import org.slf4j.LoggerFactory;
 
 import sharding.simple.shardtests.ShardTestFactory;
 
-/** Interfaces the shardingsimple application with the Blueprint.
+/**
+ * Interfaces the shardingsimple application with the Blueprint.
  * On initialization creates all other shardingsimple infra used throughout
  * the run of the app (ShardHelper, ShardTestFactory, etc.)
- * @author jmedved
  *
+ * @author jmedved
  */
 public class ShardingSimpleProvider {
 
@@ -32,16 +33,18 @@ public class ShardingSimpleProvider {
     private final ShardingsimpleServiceImpl rpcServiceImpl;
     private final ShardTestFactory testFactory;
 
-    /** Public constructor - references to MD-SAL services injected through here.
-     * @param rpcRegistry: reference to MD-SAL RPC Registry
+    /**
+     * Public constructor - references to MD-SAL services injected through here.
+     *
+     * @param rpcRegistry:             reference to MD-SAL RPC Registry
      * @param dataTreeShardingService: reference to MD-SAL Data Tree Sharding Service
-     * @param dataTreeService: reference to MD-SAL Data Tree  Service
-     * @param schemaService: reference to MD-SAL Schema Service
+     * @param dataTreeService:         reference to MD-SAL Data Tree  Service
+     * @param schemaService:           reference to MD-SAL Schema Service
      */
     public ShardingSimpleProvider(final RpcProviderRegistry rpcRegistry,
-            final DOMDataTreeShardingService dataTreeShardingService,
-            final DOMDataTreeService dataTreeService,
-            final SchemaService schemaService) {
+                                  final DOMDataTreeShardingService dataTreeShardingService,
+                                  final DOMDataTreeService dataTreeService,
+                                  final SchemaService schemaService) {
         this.shardHelper = new ShardHelper(dataTreeShardingService, dataTreeService, schemaService);
         this.testFactory = new ShardTestFactory(shardHelper, dataTreeService);
         this.rpcServiceImpl = new ShardingsimpleServiceImpl(rpcRegistry, testFactory);

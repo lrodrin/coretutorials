@@ -58,17 +58,19 @@ public abstract class AbstractShardTest implements AutoCloseable {
     static final YangInstanceIdentifier TEST_DATA_ROOT_YID =
             YangInstanceIdentifier.builder().node(TestData.QNAME).node(OuterList.QNAME).build();
 
-    /** Constructor for the ShardTest class.
-     * @param numShards: number of shards to use in the test
-     * @param numItems: number of data items to store
-     * @param dataStoreType: CONFIG or OPERATIONAL
-     * @param shardHelper: reference to the Shard Helper
+    /**
+     * Constructor for the ShardTest class.
+     *
+     * @param numShards:       number of shards to use in the test
+     * @param numItems:        number of data items to store
+     * @param dataStoreType:   CONFIG or OPERATIONAL
+     * @param shardHelper:     reference to the Shard Helper
      * @param dataTreeService: reference to the MD-SAL dataTreeService
      * @throws ShardTestException when shards or data tree listeners could not be created/registered
      */
     AbstractShardTest(Long numShards, Long numItems, Long numListeners, Long opsPerTx,
-            LogicalDatastoreType dataStoreType, Boolean precreateTestData, ShardHelper shardHelper,
-            DOMDataTreeService dataTreeService) throws ShardTestException {
+                      LogicalDatastoreType dataStoreType, Boolean precreateTestData, ShardHelper shardHelper,
+                      DOMDataTreeService dataTreeService) throws ShardTestException {
         LOG.info("Creating ShardTest");
 
         this.dataTreeService = dataTreeService;
@@ -80,9 +82,9 @@ public abstract class AbstractShardTest implements AutoCloseable {
         // Create the specified number of shards/producers and register them
         // with MD-SAL
         try {
-            for (Long i = (long)0; i < numShards; i++) {
+            for (Long i = (long) 0; i < numShards; i++) {
                 final YangInstanceIdentifier yiId =
-                                TEST_DATA_ROOT_YID.node(new NodeIdentifierWithPredicates(OuterList.QNAME,
+                        TEST_DATA_ROOT_YID.node(new NodeIdentifierWithPredicates(OuterList.QNAME,
                                 QName.create(OuterList.QNAME, "oid"),
                                 i));
                 final ShardData sd = shardHelper.createAndInitShard(dataStoreType, yiId);
@@ -108,11 +110,13 @@ public abstract class AbstractShardTest implements AutoCloseable {
         }
     }
 
-    /** Pre-creates test data (InnerList elements) before the measured test
-     *  run and puts them in an array list for quick retrieval during the
-     *  test run.
+    /**
+     * Pre-creates test data (InnerList elements) before the measured test
+     * run and puts them in an array list for quick retrieval during the
+     * test run.
+     *
      * @return the list of pre-created test elements that will be pushed
-     *          into the data store during the test run.
+     * into the data store during the test run.
      */
     protected List<MapEntryNode> preCreateTestData() {
         final List<MapEntryNode> testData;
@@ -122,7 +126,7 @@ public abstract class AbstractShardTest implements AutoCloseable {
             for (int i = 0; i < numItems; i++) {
                 for (int s = 0; s < numShards; s++) {
                     NodeIdentifierWithPredicates nodeId = new NodeIdentifierWithPredicates(InnerList.QNAME,
-                            DomListBuilder.IL_NAME, (long)i);
+                            DomListBuilder.IL_NAME, (long) i);
                     testData.add(createListEntry(nodeId, s, i));
                 }
             }
@@ -134,9 +138,9 @@ public abstract class AbstractShardTest implements AutoCloseable {
         return testData;
     }
 
-    /** Creates a root "anchor" node (actually an InnerList hanging off an
-     *  outer list item) in each shard.
-     *
+    /**
+     * Creates a root "anchor" node (actually an InnerList hanging off an
+     * outer list item) in each shard.
      */
     protected void createListAnchors() {
         MapNode mapNode = ImmutableMapNodeBuilder
@@ -162,44 +166,49 @@ public abstract class AbstractShardTest implements AutoCloseable {
         }
     }
 
-    /** Retrieve the number of ok event notifications from all TestListeners.
+    /**
+     * Retrieve the number of ok event notifications from all TestListeners.
+     *
      * @return the total number of ok event notifications from
-     *      all TestListeners
+     * all TestListeners
      */
     protected int getListenerEventsOk() {
         int listenerEventsOk = 0;
-        for ( ListenerRegistration<ShardTestListener> lreg : testListenerRegs) {
+        for (ListenerRegistration<ShardTestListener> lreg : testListenerRegs) {
             listenerEventsOk += lreg.getInstance().getDataTreeEventsOk();
         }
         return listenerEventsOk;
     }
 
-    /** Retrieve the number of failed event notifications from all
-     *  TestListeners.
+    /**
+     * Retrieve the number of failed event notifications from all
+     * TestListeners.
+     *
      * @return the total number of failed event notifications from
-     *      all TestListeners
+     * all TestListeners
      */
     protected int getListenerEventsFail() {
         int listenerEventsFail = 0;
-        for ( ListenerRegistration<ShardTestListener> lreg : testListenerRegs) {
+        for (ListenerRegistration<ShardTestListener> lreg : testListenerRegs) {
             listenerEventsFail += lreg.getInstance().getDataTreeEventsFail();
         }
         return listenerEventsFail;
     }
 
     public static MapEntryNode createListEntry(NodeIdentifierWithPredicates nodeId,
-            int shardIndex, long elementIndex) {
+                                               int shardIndex, long elementIndex) {
         return ImmutableNodes.mapEntryBuilder()
                 .withNodeIdentifier(nodeId)
                 .withChild(ImmutableNodes.leafNode(DomListBuilder.IL_NAME, elementIndex))
                 .withChild(ImmutableNodes.leafNode(DomListBuilder.IL_VALUE,
-                        "Item-" + String.valueOf(shardIndex) + "-" + String.valueOf((int)elementIndex)))
+                        "Item-" + String.valueOf(shardIndex) + "-" + String.valueOf((int) elementIndex)))
                 .build();
     }
 
-    /** Registers the validation listener with MD-SAL.
-     * @throws DOMDataTreeLoopException when registration fails
+    /**
+     * Registers the validation listener with MD-SAL.
      *
+     * @throws DOMDataTreeLoopException when registration fails
      */
     public void registerValidationListener() throws DOMDataTreeLoopException {
         LOG.info("Registering validation listener");
@@ -221,7 +230,7 @@ public abstract class AbstractShardTest implements AutoCloseable {
     public void close() throws Exception {
         LOG.info("Closing ShardTest");
 
-        testListenerRegs.forEach( lReg -> lReg.close());
+        testListenerRegs.forEach(lReg -> lReg.close());
         if (validationListenerReg != null) {
             validationListenerReg.close();
             validationListenerReg = null;

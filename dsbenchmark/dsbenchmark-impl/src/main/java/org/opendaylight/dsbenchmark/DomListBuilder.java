@@ -32,25 +32,25 @@ public final class DomListBuilder {
         List<MapEntryNode> outerList = new ArrayList<MapEntryNode>(outerElements);
         for (int j = 0; j < outerElements; j++) {
             outerList.add(ImmutableNodes.mapEntryBuilder()
-                                .withNodeIdentifier(new NodeIdentifierWithPredicates(OuterList.QNAME, OL_ID, j))
-                                .withChild(ImmutableNodes.leafNode(OL_ID, j))
-                                .withChild(buildInnerList(j, innerElements))
-                                .build());
+                    .withNodeIdentifier(new NodeIdentifierWithPredicates(OuterList.QNAME, OL_ID, j))
+                    .withChild(ImmutableNodes.leafNode(OL_ID, j))
+                    .withChild(buildInnerList(j, innerElements))
+                    .build());
         }
 
         return outerList;
     }
 
-    static private MapNode buildInnerList(int index, int elements ) {
+    static private MapNode buildInnerList(int index, int elements) {
         CollectionNodeBuilder<MapEntryNode, MapNode> innerList = ImmutableNodes.mapNodeBuilder(InnerList.QNAME);
 
         final String itemStr = "Item-" + String.valueOf(index) + "-";
-        for( int i = 0; i < elements; i++ ) {
+        for (int i = 0; i < elements; i++) {
             innerList.addChild(ImmutableNodes.mapEntryBuilder()
-                                .withNodeIdentifier(new NodeIdentifierWithPredicates(InnerList.QNAME, IL_NAME, i))
-                                .withChild(ImmutableNodes.leafNode(IL_NAME, i))
-                                .withChild(ImmutableNodes.leafNode(IL_VALUE, itemStr + String.valueOf(i)))
-                                .build());
+                    .withNodeIdentifier(new NodeIdentifierWithPredicates(InnerList.QNAME, IL_NAME, i))
+                    .withChild(ImmutableNodes.leafNode(IL_NAME, i))
+                    .withChild(ImmutableNodes.leafNode(IL_VALUE, itemStr + String.valueOf(i)))
+                    .build());
         }
         return innerList.build();
     }

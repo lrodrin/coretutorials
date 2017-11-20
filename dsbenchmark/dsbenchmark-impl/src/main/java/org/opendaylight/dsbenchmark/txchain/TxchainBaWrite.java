@@ -58,7 +58,7 @@ public class TxchainBaWrite extends DatastoreAbstractWriter implements Transacti
 
         for (OuterList element : this.list) {
             InstanceIdentifier<OuterList> iid = InstanceIdentifier.create(TestExec.class)
-                                                    .child(OuterList.class, element.getKey());
+                    .child(OuterList.class, element.getKey());
             if (oper == StartTestInput.Operation.PUT) {
                 tx.put(LogicalDatastoreType.CONFIGURATION, iid, element);
             } else {
@@ -74,6 +74,7 @@ public class TxchainBaWrite extends DatastoreAbstractWriter implements Transacti
                     public void onSuccess(final Void result) {
                         txOk++;
                     }
+
                     @Override
                     public void onFailure(final Throwable t) {
                         LOG.error("Transaction failed, {}", t);
@@ -98,8 +99,7 @@ public class TxchainBaWrite extends DatastoreAbstractWriter implements Transacti
         }
         try {
             chain.close();
-        }
-        catch (IllegalStateException e){
+        } catch (IllegalStateException e) {
             LOG.error("Transaction close failed,", e);
         }
         LOG.info("Transactions: submitted {}, completed {}", txSubmitted, (txOk + txError));
@@ -107,7 +107,7 @@ public class TxchainBaWrite extends DatastoreAbstractWriter implements Transacti
 
     @Override
     public void onTransactionChainFailed(TransactionChain<?, ?> chain,
-            AsyncTransaction<?, ?> transaction, Throwable cause) {
+                                         AsyncTransaction<?, ?> transaction, Throwable cause) {
         LOG.error("Broken chain {} in DatastoreBaAbstractWrite, transaction {}, cause {}",
                 chain, transaction.getIdentifier(), cause);
     }

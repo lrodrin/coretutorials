@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author jmedved
- *
  */
 public class HighScalabilitySampleTopoProvider {
 
@@ -30,15 +29,15 @@ public class HighScalabilitySampleTopoProvider {
     /**
      * Method called when the blueprint container is created.
      *
-     * @param dataBroker : reference to the MD-SAL DataBroker
-     * @param rpcProviderRegistry : reference to MD-SAL RPC Provider Registry
+     * @param dataBroker                      : reference to the MD-SAL DataBroker
+     * @param rpcProviderRegistry             : reference to MD-SAL RPC Provider Registry
      * @param clusterSingletonServiceProvider : reference to MD-SAL Cluster Singleton Service
-     * @param sampleServiceProvider : All device RPCs holder
+     * @param sampleServiceProvider           : All device RPCs holder
      */
     public HighScalabilitySampleTopoProvider(final DataBroker dataBroker,
-            final RpcProviderRegistry rpcProviderRegistry,
-            final ClusterSingletonServiceProvider clusterSingletonServiceProvider,
-            final SampleServicesProvider sampleServiceProvider) {
+                                             final RpcProviderRegistry rpcProviderRegistry,
+                                             final ClusterSingletonServiceProvider clusterSingletonServiceProvider,
+                                             final SampleServicesProvider sampleServiceProvider) {
         LOG.info("HighScalabilitySampleTopoProvider Session Initiated");
         Preconditions.checkState(sampleDeviceTopologyDiscoveryManager == null, "we have instance of SFRM");
         sampleDeviceTopologyDiscoveryManager = new SampleDeviceTopologyDiscoveryManager(dataBroker, rpcProviderRegistry,

@@ -14,9 +14,11 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.socket.nio.NioDatagramChannel;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+
 import org.apache.directory.server.dhcp.io.DhcpInterfaceManager;
 import org.apache.directory.server.dhcp.netty.DhcpHandler;
 import org.apache.directory.server.dhcp.service.DhcpService;

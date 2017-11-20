@@ -17,12 +17,14 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Class that holds information about the host where program is executing.
- * @author jmedved
+/**
+ * Class that holds information about the host where program is executing.
  *
+ * @author jmedved
  */
 public class HostInformation {
     private static final Logger LOG = LoggerFactory.getLogger(HostInformation.class);
@@ -30,8 +32,8 @@ public class HostInformation {
     private String hostName = "Host Name not specified";
     private final List<String> ipAddresses = new ArrayList<>();
 
-    /** Constructor where private fields for the class get initialized.
-     *
+    /**
+     * Constructor where private fields for the class get initialized.
      */
     public HostInformation() {
         // Get all IP addresses on all interfaces

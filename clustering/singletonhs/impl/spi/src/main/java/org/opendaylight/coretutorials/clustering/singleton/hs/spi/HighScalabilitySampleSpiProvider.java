@@ -22,7 +22,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author jmedved
- *
  */
 public class HighScalabilitySampleSpiProvider implements SampleServicesProvider {
 
@@ -39,13 +38,13 @@ public class HighScalabilitySampleSpiProvider implements SampleServicesProvider 
     /**
      * Constructor.
      *
-     * @param dataBroker : reference to the MD-SAL DataBroker
-     * @param rpcProviderRegistry : reference to MD-SAL RPC Provider Registry
+     * @param dataBroker                      : reference to the MD-SAL DataBroker
+     * @param rpcProviderRegistry             : reference to MD-SAL RPC Provider Registry
      * @param clusterSingletonServiceProvider : reference to MD-SAL Cluster Singleton Service
      */
     public HighScalabilitySampleSpiProvider(final DataBroker dataBroker,
-            final RpcProviderRegistry rpcProviderRegistry,
-            final ClusterSingletonServiceProvider clusterSingletonServiceProvider) {
+                                            final RpcProviderRegistry rpcProviderRegistry,
+                                            final ClusterSingletonServiceProvider clusterSingletonServiceProvider) {
         this.dataBroker = Preconditions.checkNotNull(dataBroker);
         this.rpcProviderRegistry = Preconditions.checkNotNull(rpcProviderRegistry);
         this.clusterSingletonServiceProvider = Preconditions.checkNotNull(clusterSingletonServiceProvider);

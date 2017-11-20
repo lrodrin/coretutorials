@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 
-public class TxchainBaDelete extends DatastoreAbstractWriter implements TransactionChainListener{
+public class TxchainBaDelete extends DatastoreAbstractWriter implements TransactionChainListener {
     private static final Logger LOG = (Logger) LoggerFactory.getLogger(TxchainBaDelete.class);
     private DataBroker bindingDataBroker;
 
@@ -45,10 +45,10 @@ public class TxchainBaDelete extends DatastoreAbstractWriter implements Transact
         // Dump the whole list into the data store in a single transaction
         // with <outerListElem> PUTs on the transaction
         TxchainBaWrite dd = new TxchainBaWrite(bindingDataBroker,
-                                               StartTestInput.Operation.PUT,
-                                               outerListElem,
-                                               innerListElem,
-                                               outerListElem);
+                StartTestInput.Operation.PUT,
+                outerListElem,
+                innerListElem,
+                outerListElem);
         dd.createList();
         dd.executeList();
     }
@@ -63,7 +63,7 @@ public class TxchainBaDelete extends DatastoreAbstractWriter implements Transact
 
         for (long l = 0; l < outerListElem; l++) {
             InstanceIdentifier<OuterList> iid = InstanceIdentifier.create(TestExec.class)
-                                                    .child(OuterList.class, new OuterListKey((int)l));
+                    .child(OuterList.class, new OuterListKey((int) l));
             tx.delete(LogicalDatastoreType.CONFIGURATION, iid);
 
             writeCnt++;
@@ -75,6 +75,7 @@ public class TxchainBaDelete extends DatastoreAbstractWriter implements Transact
                     public void onSuccess(final Void result) {
                         txOk++;
                     }
+
                     @Override
                     public void onFailure(final Throwable t) {
                         LOG.error("Transaction failed, {}", t);
@@ -98,8 +99,7 @@ public class TxchainBaDelete extends DatastoreAbstractWriter implements Transact
         }
         try {
             chain.close();
-        }
-        catch (IllegalStateException e){
+        } catch (IllegalStateException e) {
             LOG.error("Transaction close failed,", e);
         }
         LOG.info("Transactions: submitted {}, completed {}", txSubmitted, (txOk + txError));
@@ -107,7 +107,7 @@ public class TxchainBaDelete extends DatastoreAbstractWriter implements Transact
 
     @Override
     public void onTransactionChainFailed(TransactionChain<?, ?> chain,
-            AsyncTransaction<?, ?> transaction, Throwable cause) {
+                                         AsyncTransaction<?, ?> transaction, Throwable cause) {
         LOG.error("Broken chain {} in TxchainBaDelete, transaction {}, cause {}",
                 chain, transaction.getIdentifier(), cause);
     }

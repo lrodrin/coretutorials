@@ -21,16 +21,19 @@ import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Implementation of the example global RPC Service.
- * @author jmedved
+/**
+ * Implementation of the example global RPC Service.
  *
+ * @author jmedved
  */
 public class GlobalRpcServiceImpl implements GlobalRpcService {
     private static final Logger LOG = LoggerFactory.getLogger(GlobalRpcServiceImpl.class);
     private final AtomicInteger rpcInvocations = new AtomicInteger(0);
     private final HostInformation hostInfo;
 
-    /** Constructor.
+    /**
+     * Constructor.
+     *
      * @param hostInfo: reference to an object that holds the example host
      *                  data returned in this service's response.
      */
@@ -57,12 +60,12 @@ public class GlobalRpcServiceImpl implements GlobalRpcService {
         }
 
         GlobalRpcOutput output = new GlobalRpcOutputBuilder()
-                                    .setOutputParam(outputString)
-                                    .setInvocations(rpcInvocations.incrementAndGet())
-                                    .setHostName(hostInfo.getHostName())
-                                    .setIpAddress(hostInfo.getIpAddresses())
-                                    .setJvmUptime(hostInfo.getJvmUptime())
-                                    .build();
+                .setOutputParam(outputString)
+                .setInvocations(rpcInvocations.incrementAndGet())
+                .setHostName(hostInfo.getHostName())
+                .setIpAddress(hostInfo.getIpAddresses())
+                .setJvmUptime(hostInfo.getJvmUptime())
+                .build();
         return RpcResultBuilder.success(output).buildFuture();
     }
 }

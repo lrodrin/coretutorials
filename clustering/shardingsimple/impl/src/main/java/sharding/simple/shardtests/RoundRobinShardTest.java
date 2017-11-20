@@ -31,9 +31,10 @@ import sharding.simple.impl.DomListBuilder;
 import sharding.simple.impl.ShardHelper;
 import sharding.simple.impl.ShardHelper.ShardData;
 
-/** Implements the shard performance test.
- * @author jmedved
+/**
+ * Implements the shard performance test.
  *
+ * @author jmedved
  */
 public class RoundRobinShardTest extends AbstractShardTest {
     private static final Logger LOG = LoggerFactory.getLogger(RoundRobinShardTest.class);
@@ -42,16 +43,18 @@ public class RoundRobinShardTest extends AbstractShardTest {
     private final AtomicInteger txError = new AtomicInteger();
 
     RoundRobinShardTest(Long numShards, Long numItems, Long numListeners, Long opsPerTx,
-            LogicalDatastoreType dataStoreType, Boolean precreateTestData, ShardHelper shardHelper,
-            DOMDataTreeService dataTreeService) throws ShardTestException {
+                        LogicalDatastoreType dataStoreType, Boolean precreateTestData, ShardHelper shardHelper,
+                        DOMDataTreeService dataTreeService) throws ShardTestException {
 
         super(numShards, numItems, numListeners, opsPerTx, dataStoreType, precreateTestData,
                 shardHelper, dataTreeService);
         LOG.info("Created RoundRobinShardTest");
     }
 
-    /** Performs a test where data items are created on fly and written
-     *  round-robin into the data store.
+    /**
+     * Performs a test where data items are created on fly and written
+     * round-robin into the data store.
+     *
      * @return: performance statistics from the test.
      */
     @Override
@@ -80,12 +83,12 @@ public class RoundRobinShardTest extends AbstractShardTest {
         for (int i = 0; i < numItems; i++) {
             for (int s = 0; s < numShards; s++) {
                 NodeIdentifierWithPredicates nodeId = new NodeIdentifierWithPredicates(InnerList.QNAME,
-                        DomListBuilder.IL_NAME, (long)i);
+                        DomListBuilder.IL_NAME, (long) i);
                 MapEntryNode element;
                 if (preCreateTestData) {
                     element = testData.get(testDataIdx++);
                 } else {
-                    element = createListEntry(nodeId, s, (long)i);
+                    element = createListEntry(nodeId, s, (long) i);
                 }
                 writeCnt[s]++;
                 cursor[s].write(nodeId, element);

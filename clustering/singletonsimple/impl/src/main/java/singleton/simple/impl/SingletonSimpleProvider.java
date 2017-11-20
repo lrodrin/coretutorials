@@ -33,16 +33,16 @@ import org.opendaylight.yangtools.yang.binding.InstanceIdentifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** The main entry point into the Cluster Singleton Service example.
- *  It provides two functions:
- *   - Interactions with Blueprint that initializes and shuts down the
- *     example
- *   - Interactions with the Clustering Singleton Service that drives the
- *     transitions of example service from Follower to Leader and vice
- *     versa.
+/**
+ * The main entry point into the Cluster Singleton Service example.
+ * It provides two functions:
+ * - Interactions with Blueprint that initializes and shuts down the
+ * example
+ * - Interactions with the Clustering Singleton Service that drives the
+ * transitions of example service from Follower to Leader and vice
+ * versa.
  *
  * @author jmedved, vdemcak
- *
  */
 public class SingletonSimpleProvider implements ClusterSingletonService {
 
@@ -75,14 +75,16 @@ public class SingletonSimpleProvider implements ClusterSingletonService {
     private static final ServiceGroupIdentifier IDENT = ServiceGroupIdentifier.create("Brm");
 
 
-    /** Constructor: injects references to MD-SAL services into SingletonSimpleProvider.
-     * @param dataBroker: reference to the MD-SAL DataBroker
-     * @param rpcProviderRegistry: reference to  MD-SAL RPC Provider
-     *              Registry
-     * @param notificationPublishService: reference to MD-SAL Notification
-     *              service where subscribers register to receive Notifications
+    /**
+     * Constructor: injects references to MD-SAL services into SingletonSimpleProvider.
+     *
+     * @param dataBroker:                      reference to the MD-SAL DataBroker
+     * @param rpcProviderRegistry:             reference to  MD-SAL RPC Provider
+     *                                         Registry
+     * @param notificationPublishService:      reference to MD-SAL Notification
+     *                                         service where subscribers register to receive Notifications
      * @param clusterSingletonServiceProvider: reference to MD-SAL Cluster
-     *              Singleton Service
+     *                                         Singleton Service
      */
     public SingletonSimpleProvider(final DataBroker dataBroker,
                                    final RpcProviderRegistry rpcProviderRegistry,

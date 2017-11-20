@@ -26,11 +26,11 @@ public class SimpletxDomDelete extends DatastoreAbstractWriter {
     private final DOMDataBroker domDataBroker;
 
     public SimpletxDomDelete(DOMDataBroker domDataBroker, int outerListElem,
-            int innerListElem, long writesPerTx) {
+                             int innerListElem, long writesPerTx) {
         super(StartTestInput.Operation.DELETE, outerListElem, innerListElem, writesPerTx);
         this.domDataBroker = domDataBroker;
         LOG.info("Created simpleTxDomDelete");
-   }
+    }
 
     @Override
     public void createList() {
@@ -38,10 +38,10 @@ public class SimpletxDomDelete extends DatastoreAbstractWriter {
         // Dump the whole list into the data store in a single transaction
         // with <outerListElem> PUTs on the transaction
         SimpletxDomWrite dd = new SimpletxDomWrite(domDataBroker,
-                                                   StartTestInput.Operation.PUT,
-                                                   outerListElem,
-                                                   innerListElem,
-                                                   outerListElem);
+                StartTestInput.Operation.PUT,
+                outerListElem,
+                innerListElem,
+                outerListElem);
         dd.createList();
         dd.executeList();
     }
@@ -55,10 +55,10 @@ public class SimpletxDomDelete extends DatastoreAbstractWriter {
 
         for (int l = 0; l < outerListElem; l++) {
             YangInstanceIdentifier yid = YangInstanceIdentifier.builder()
-                                         .node(TestExec.QNAME)
-                                         .node(OuterList.QNAME)
-                                         .nodeWithKey(OuterList.QNAME, OL_ID, l)
-                                         .build();
+                    .node(TestExec.QNAME)
+                    .node(OuterList.QNAME)
+                    .nodeWithKey(OuterList.QNAME, OL_ID, l)
+                    .build();
 
             tx.delete(LogicalDatastoreType.CONFIGURATION, yid);
             writeCnt++;

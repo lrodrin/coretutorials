@@ -32,10 +32,11 @@ import org.opendaylight.yangtools.yang.model.api.SchemaContextListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Simplifies creation of shards and management of shard-related data which
- *  an application must keep track of.
- * @author jmedved
+/**
+ * Simplifies creation of shards and management of shard-related data which
+ * an application must keep track of.
  *
+ * @author jmedved
  */
 public class ShardHelper implements AutoCloseable, SchemaContextListener {
     private static final Logger LOG = LoggerFactory.getLogger(ShardHelper.class);
@@ -52,14 +53,16 @@ public class ShardHelper implements AutoCloseable, SchemaContextListener {
     private final List<ListenerRegistration<InMemoryDOMDataTreeShard>> dataTreeShardRegistrations = new ArrayList<>();
     private final Map<DOMDataTreeIdentifier, ShardData> shardDb = new HashMap<>();
 
-    /** Constructor.
+    /**
+     * Constructor.
+     *
      * @param dataTreeShardingService: reference to MD-SAL Data Tree Sharding Service
-     * @param dataTreeService: reference to MD-SAL Data Tree  Service
-     * @param schemaService: reference to MD-SAL Schema Service
+     * @param dataTreeService:         reference to MD-SAL Data Tree  Service
+     * @param schemaService:           reference to MD-SAL Schema Service
      */
     public ShardHelper(DOMDataTreeShardingService dataTreeShardingService,
-            DOMDataTreeService dataTreeService,
-            SchemaService schemaService) {
+                       DOMDataTreeService dataTreeService,
+                       SchemaService schemaService) {
         this.dataTreeShardingService = dataTreeShardingService;
         this.dataTreeService = dataTreeService;
         this.schemaService = schemaService;
@@ -68,13 +71,15 @@ public class ShardHelper implements AutoCloseable, SchemaContextListener {
         LOG.info("ShardHelper Created & Initialized");
     }
 
-    /** Helper function that first creates a shard,creates a producer for the
-     *  shard, and triggers MD-SAL to "wire together" the shard and the producer.
+    /**
+     * Helper function that first creates a shard,creates a producer for the
+     * shard, and triggers MD-SAL to "wire together" the shard and the producer.
      * default parameters defined in this class.
+     *
      * @param dataStoreType: CONFIG or OPERATIONAL
-     * @param yiId: "Root" of the shard's subtree
-     * @return: opaque handle to shard data that is later used to create transactions on the shard.
+     * @param yiId:          "Root" of the shard's subtree
      * @throws DOMDataTreeShardingConflictException when wiring of the shard and its producer failed
+     * @return: opaque handle to shard data that is later used to create transactions on the shard.
      */
     public ShardData createAndInitShard(LogicalDatastoreType dataStoreType, YangInstanceIdentifier yiId)
             throws DOMDataTreeShardingConflictException {
@@ -83,16 +88,16 @@ public class ShardHelper implements AutoCloseable, SchemaContextListener {
 
         final ExecutorService configRootShardExecutor =
                 SpecialExecutors.newBlockingBoundedFastThreadPool(ShardHelper.DCL_EXECUTOR_MAX_POOL_SIZE,
-                                                                  ShardHelper.DCL_EXECUTOR_MAX_QUEUE_SIZE,
-                                                                  ddtId.getDatastoreType() + "RootShard-DCL");
+                        ShardHelper.DCL_EXECUTOR_MAX_QUEUE_SIZE,
+                        ddtId.getDatastoreType() + "RootShard-DCL");
         final InMemoryDOMDataTreeShard shard =
                 InMemoryDOMDataTreeShard.create(ddtId,
-                                                configRootShardExecutor,
-                                                ShardHelper.DATA_CHANGE_LISTENER_MAX_QUEUE_SIZE);
+                        configRootShardExecutor,
+                        ShardHelper.DATA_CHANGE_LISTENER_MAX_QUEUE_SIZE);
 
         final DOMDataTreeProducer producer = dataTreeService.createProducer(Collections.singletonList(ddtId));
         final ListenerRegistration<InMemoryDOMDataTreeShard> dataTreeShardReg =
-                    dataTreeShardingService.registerDataTreeShard(ddtId, shard, producer);
+                dataTreeShardingService.registerDataTreeShard(ddtId, shard, producer);
         dataTreeShardRegistrations.add(dataTreeShardReg);
 
         shard.onGlobalContextUpdated(schemaService.getGlobalContext());
@@ -113,17 +118,17 @@ public class ShardHelper implements AutoCloseable, SchemaContextListener {
      * @see java.lang.AutoCloseable#close()
      */
     @Override
-    public void close()  {
+    public void close() {
         clear();
         schemaServiceRegistration.close();
         LOG.info("ShardHelper Closed");
     }
 
-    /** Clear Shard Manager's internal databases. Should be used before
-     *  each test run.
-     *
+    /**
+     * Clear Shard Manager's internal databases. Should be used before
+     * each test run.
      */
-    public void clear()  {
+    public void clear() {
         LOG.info("clearing databases");
         dataTreeShardRegistrations.forEach(dataTreeShardReg -> dataTreeShardReg.close());
         dataTreeShardRegistrations.clear();
@@ -131,10 +136,11 @@ public class ShardHelper implements AutoCloseable, SchemaContextListener {
         shardDb.clear();
     }
 
-    /** Class that holds all data for a shard that is needed by an application
-     *  to operate on the shard.
-     * @author jmedved
+    /**
+     * Class that holds all data for a shard that is needed by an application
+     * to operate on the shard.
      *
+     * @author jmedved
      */
     public static class ShardData {
         private final DOMDataTreeIdentifier ddtId;
@@ -142,7 +148,7 @@ public class ShardHelper implements AutoCloseable, SchemaContextListener {
         private final DOMDataTreeProducer producer;
 
         private ShardData(DOMDataTreeIdentifier ddtId, InMemoryDOMDataTreeShard shard,
-                DOMDataTreeProducer producer) {
+                          DOMDataTreeProducer producer) {
             this.shard = shard;
             this.ddtId = ddtId;
             this.producer = producer;

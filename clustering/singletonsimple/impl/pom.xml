@@ -7,49 +7,50 @@ This program and the accompanying materials are made available under the
 terms of the Eclipse Public License v1.0 which accompanies this distribution,
 and is available at http://www.eclipse.org/legal/epl-v10.html
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <repositories>
-    <repository>
-      <id>repository.springsource.com.release</id>
-      <name>SpringSource OBR - Release</name>
-      <url>http://repository.springsource.com/maven/bundles/release</url>
-    </repository>
-    <repository>
-      <id>repository.springsource.com.external</id>
-      <name>SpringSource OBR - External</name>
-      <url>http://repository.springsource.com/maven/bundles/external</url>
-    </repository>
-  </repositories>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <repositories>
+        <repository>
+            <id>repository.springsource.com.release</id>
+            <name>SpringSource OBR - Release</name>
+            <url>http://repository.springsource.com/maven/bundles/release</url>
+        </repository>
+        <repository>
+            <id>repository.springsource.com.external</id>
+            <name>SpringSource OBR - External</name>
+            <url>http://repository.springsource.com/maven/bundles/external</url>
+        </repository>
+    </repositories>
 
-  <parent>
-    <groupId>org.opendaylight.controller</groupId>
-    <artifactId>config-parent</artifactId>
-    <version>0.6.3-SNAPSHOT</version>
-    <relativePath/>
-  </parent>
+    <parent>
+        <groupId>org.opendaylight.controller</groupId>
+        <artifactId>config-parent</artifactId>
+        <version>0.6.3-SNAPSHOT</version>
+        <relativePath/>
+    </parent>
 
-  <groupId>org.opendaylight.coretutorials.clustering</groupId>
-  <artifactId>singletonsimple-impl</artifactId>
-  <version>0.2.1-SNAPSHOT</version>
-  <packaging>bundle</packaging>
+    <groupId>org.opendaylight.coretutorials.clustering</groupId>
+    <artifactId>singletonsimple-impl</artifactId>
+    <version>0.2.1-SNAPSHOT</version>
+    <packaging>bundle</packaging>
 
-  <dependencies>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>singletonsimple-api</artifactId>
-      <version>${project.version}</version>
-    </dependency>
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>singletonsimple-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
-    <!-- Testing Dependencies -->
-    <dependency>
-      <groupId>org.junit</groupId>
-      <artifactId>com.springsource.junit</artifactId>
-      <version>3.8.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-    </dependency>
-  </dependencies>
+        <!-- Testing Dependencies -->
+        <dependency>
+            <groupId>org.junit</groupId>
+            <artifactId>com.springsource.junit</artifactId>
+            <version>3.8.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+        </dependency>
+    </dependencies>
 </project>

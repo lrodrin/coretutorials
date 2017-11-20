@@ -29,16 +29,16 @@ public class SimpletxBaWrite extends DatastoreAbstractWriter {
     private List<OuterList> list;
 
     public SimpletxBaWrite(DataBroker dataBroker, StartTestInput.Operation oper,
-            int outerListElem, int innerListElem, long writesPerTx) {
+                           int outerListElem, int innerListElem, long writesPerTx) {
         super(oper, outerListElem, innerListElem, writesPerTx);
         this.dataBroker = dataBroker;
         LOG.info("Created SimpletxBaWrite");
     }
 
-     @Override
-     public void createList() {
-         list = BaListBuilder.buildOuterList(this.outerListElem, this.innerListElem);
-     }
+    @Override
+    public void createList() {
+        list = BaListBuilder.buildOuterList(this.outerListElem, this.innerListElem);
+    }
 
     @Override
     public void executeList() {
@@ -47,7 +47,7 @@ public class SimpletxBaWrite extends DatastoreAbstractWriter {
 
         for (OuterList element : this.list) {
             InstanceIdentifier<OuterList> iid = InstanceIdentifier.create(TestExec.class)
-                                                    .child(OuterList.class, element.getKey());
+                    .child(OuterList.class, element.getKey());
             if (oper == StartTestInput.Operation.PUT) {
                 tx.put(LogicalDatastoreType.CONFIGURATION, iid, element);
             } else {

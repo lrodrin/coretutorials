@@ -13,6 +13,7 @@ import com.google.common.primitives.Shorts;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.socket.nio.NioDatagramChannel;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Set;
+
 import org.anarres.dhcp.v6.service.Dhcp6Service;
 import org.apache.directory.server.dhcp.netty.Dhcp6Handler;
 
@@ -39,7 +41,7 @@ public final class Dhcpv6Server {
     private NioDatagramChannel channel;
 
     public Dhcpv6Server(final Dhcp6Service dhcpService, final short serverDuid, final short port,
-            final Set<String> interfaceNames)
+                        final Set<String> interfaceNames)
             throws SocketException {
         this.handler = new Dhcp6Handler(dhcpService, Shorts.toByteArray(serverDuid));
 

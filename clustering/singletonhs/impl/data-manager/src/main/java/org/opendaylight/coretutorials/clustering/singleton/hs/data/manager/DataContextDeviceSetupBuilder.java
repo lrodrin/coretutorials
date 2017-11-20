@@ -21,7 +21,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author jmedved
- *
  */
 class DataContextDeviceSetupBuilder {
     private static final Logger LOG = LoggerFactory.getLogger(DataContextDeviceSetupBuilder.class);

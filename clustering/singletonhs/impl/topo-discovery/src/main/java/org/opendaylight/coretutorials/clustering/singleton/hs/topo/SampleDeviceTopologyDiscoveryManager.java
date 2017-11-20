@@ -12,11 +12,13 @@ import com.google.common.base.Preconditions;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+
 import org.opendaylight.controller.md.sal.binding.api.ClusteredDataTreeChangeListener;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.md.sal.binding.api.DataObjectModification;
@@ -39,7 +41,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author jmedved
- *
  */
 class SampleDeviceTopologyDiscoveryManager
         implements ClusteredDataTreeChangeListener<SampleNode>, AutoCloseable {
@@ -60,9 +61,9 @@ class SampleDeviceTopologyDiscoveryManager
     private ListenerRegistration<SampleDeviceTopologyDiscoveryManager> listenerRegistration;
 
     public SampleDeviceTopologyDiscoveryManager(final DataBroker dataBroker,
-            final RpcProviderRegistry rpcProviderRegistry,
-            final ClusterSingletonServiceProvider clusterSingletonServiceProvider,
-            final SampleServicesProvider sampleServiceProvider) {
+                                                final RpcProviderRegistry rpcProviderRegistry,
+                                                final ClusterSingletonServiceProvider clusterSingletonServiceProvider,
+                                                final SampleServicesProvider sampleServiceProvider) {
         this.dataBroker = Preconditions.checkNotNull(dataBroker);
         this.rpcProviderRegistry = Preconditions.checkNotNull(rpcProviderRegistry);
         this.clusterSingletonServiceProvider = Preconditions.checkNotNull(clusterSingletonServiceProvider);
@@ -80,35 +81,35 @@ class SampleDeviceTopologyDiscoveryManager
             final InstanceIdentifier<SampleNode> dataModifIdent = modif.getRootPath().getRootIdentifier();
             final NodeKey nodeKey = dataModifIdent.firstKeyOf(Node.class);
             switch (dataModif.getModificationType()) {
-            case WRITE:
-                if (contexts.containsKey(nodeKey)) {
-                    LOG.info("We have relevant context up");
-                    final ListenableFuture<Void> future = stopDeviceTopoDiscoveryContext(nodeKey);
-                    Futures.addCallback(future, new FutureCallback<Void>() {
+                case WRITE:
+                    if (contexts.containsKey(nodeKey)) {
+                        LOG.info("We have relevant context up");
+                        final ListenableFuture<Void> future = stopDeviceTopoDiscoveryContext(nodeKey);
+                        Futures.addCallback(future, new FutureCallback<Void>() {
 
-                        @Override
-                        public void onSuccess(final Void result) {
-                            startDeviceTopoDiscoveryContext(dataModifIdent, dataModif.getDataAfter());
-                        }
+                            @Override
+                            public void onSuccess(final Void result) {
+                                startDeviceTopoDiscoveryContext(dataModifIdent, dataModif.getDataAfter());
+                            }
 
-                        @Override
-                        public void onFailure(final Throwable t) {
-                            startDeviceTopoDiscoveryContext(dataModifIdent, dataModif.getDataAfter());
-                        }
-                    });
-                } else {
-                    startDeviceTopoDiscoveryContext(dataModifIdent, dataModif.getDataAfter());
-                }
-                break;
-            case DELETE:
-                stopDeviceTopoDiscoveryContext(nodeKey);
-                break;
-            case SUBTREE_MODIFIED:
-                LOG.info("SubTree Modification - no action for Node {}", dataModifIdent);
-                break;
-            default:
-                LOG.error("Unexpected ModificationType {} for Node {}", dataModifType, dataModifIdent);
-                break;
+                            @Override
+                            public void onFailure(final Throwable t) {
+                                startDeviceTopoDiscoveryContext(dataModifIdent, dataModif.getDataAfter());
+                            }
+                        });
+                    } else {
+                        startDeviceTopoDiscoveryContext(dataModifIdent, dataModif.getDataAfter());
+                    }
+                    break;
+                case DELETE:
+                    stopDeviceTopoDiscoveryContext(nodeKey);
+                    break;
+                case SUBTREE_MODIFIED:
+                    LOG.info("SubTree Modification - no action for Node {}", dataModifIdent);
+                    break;
+                default:
+                    LOG.error("Unexpected ModificationType {} for Node {}", dataModifType, dataModifIdent);
+                    break;
             }
         }
     }
@@ -125,7 +126,7 @@ class SampleDeviceTopologyDiscoveryManager
     }
 
     protected void startDeviceTopoDiscoveryContext(final InstanceIdentifier<SampleNode> ident,
-            final SampleNode sampleNode) {
+                                                   final SampleNode sampleNode) {
         final NodeKey nodeKey = ident.firstKeyOf(Node.class);
         final TopoDeviceSetupBuilder builder = new TopoDeviceSetupBuilder();
         builder.setClusterSingletonServiceProvider(clusterSingletonServiceProvider);

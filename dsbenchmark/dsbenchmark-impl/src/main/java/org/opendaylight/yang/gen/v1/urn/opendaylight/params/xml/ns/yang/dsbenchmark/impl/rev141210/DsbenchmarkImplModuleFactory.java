@@ -15,6 +15,7 @@
 * Do not modify this file unless it is present under src/main directory
 */
 package org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.dsbenchmark.impl.rev141210;
+
 public class DsbenchmarkImplModuleFactory extends org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.dsbenchmark.impl.rev141210.AbstractDsbenchmarkImplModuleFactory {
 
 }

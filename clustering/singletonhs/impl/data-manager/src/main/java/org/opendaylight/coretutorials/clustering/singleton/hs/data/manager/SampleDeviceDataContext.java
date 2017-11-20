@@ -12,10 +12,12 @@ import com.google.common.base.Preconditions;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Future;
+
 import org.opendaylight.controller.md.sal.binding.api.ClusteredDataTreeChangeListener;
 import org.opendaylight.controller.md.sal.binding.api.DataObjectModification;
 import org.opendaylight.controller.md.sal.binding.api.DataObjectModification.ModificationType;
@@ -45,7 +47,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author jmedved
- *
  */
 class SampleDeviceDataContext
         implements ClusteredDataTreeChangeListener<SubItems>, ClusterSingletonService {
@@ -110,21 +111,21 @@ class SampleDeviceDataContext
             final SingletonhsRpcSampleNodeActionService rpc = dataContextDeviceSetup.getSampleServiceProvider()
                     .getSampleNodeActionRpcs(nodeIdent);
             switch (dataModif.getModificationType()) {
-            case WRITE:
-                LOG.info("We have new note for write {}", dataModifIdent);
-                final Future<RpcResult<AddSampleNoteOutput>> addFuture = rpc.addSampleNote(makeAddInput(Collections.singletonList(dataModif.getDataAfter())));
-                break;
-            case DELETE:
-                LOG.info("We have to remove note {}", dataModifIdent);
-                final Future<RpcResult<RemoveSampleNoteOutput>> delFuture = rpc
-                        .removeSampleNote(makeDelInput(Collections.singletonList(dataModif.getDataAfter())));
-                break;
-            case SUBTREE_MODIFIED:
-                LOG.info("SubTree Modification - no action for Node {}", dataModifIdent);
-                break;
-            default:
-                LOG.error("Unexpected ModificationType {} for Node {}", dataModifType, dataModifIdent);
-                break;
+                case WRITE:
+                    LOG.info("We have new note for write {}", dataModifIdent);
+                    final Future<RpcResult<AddSampleNoteOutput>> addFuture = rpc.addSampleNote(makeAddInput(Collections.singletonList(dataModif.getDataAfter())));
+                    break;
+                case DELETE:
+                    LOG.info("We have to remove note {}", dataModifIdent);
+                    final Future<RpcResult<RemoveSampleNoteOutput>> delFuture = rpc
+                            .removeSampleNote(makeDelInput(Collections.singletonList(dataModif.getDataAfter())));
+                    break;
+                case SUBTREE_MODIFIED:
+                    LOG.info("SubTree Modification - no action for Node {}", dataModifIdent);
+                    break;
+                default:
+                    LOG.error("Unexpected ModificationType {} for Node {}", dataModifType, dataModifIdent);
+                    break;
             }
         }
     }

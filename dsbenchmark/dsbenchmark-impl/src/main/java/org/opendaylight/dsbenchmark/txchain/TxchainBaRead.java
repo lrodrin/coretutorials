@@ -24,7 +24,7 @@ import org.opendaylight.yangtools.yang.binding.InstanceIdentifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TxchainBaRead extends DatastoreAbstractWriter implements TransactionChainListener{
+public class TxchainBaRead extends DatastoreAbstractWriter implements TransactionChainListener {
     private static final Logger LOG = (Logger) LoggerFactory.getLogger(TxchainBaRead.class);
     private DataBroker bindingDataBroker;
 
@@ -92,8 +92,7 @@ public class TxchainBaRead extends DatastoreAbstractWriter implements Transactio
                         }
                     }
                     txOk++;
-                }
-                else {
+                } else {
                     txError++;
                 }
             } catch (ReadFailedException e) {

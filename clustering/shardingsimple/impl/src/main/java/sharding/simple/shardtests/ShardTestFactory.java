@@ -22,24 +22,30 @@ import org.slf4j.LoggerFactory;
 import sharding.simple.impl.ShardHelper;
 import sharding.simple.impl.ShardHelper.ShardData;
 
-/** Creates ShardTest instances.
- * @author jmedved
+/**
+ * Creates ShardTest instances.
  *
+ * @author jmedved
  */
 public class ShardTestFactory {
-    /** Defines test type.
-     * @author jmedved
+    /**
+     * Defines test type.
      *
+     * @author jmedved
      */
-    public enum ShardTestType { ROUND_ROBIN, MULTI_THREAD, SOAK_TEST, RANDOM_SHARD }
+    public enum ShardTestType {
+        ROUND_ROBIN, MULTI_THREAD, SOAK_TEST, RANDOM_SHARD
+    }
 
     private static final Logger LOG = LoggerFactory.getLogger(ShardTestFactory.class);
 
     private final ShardHelper shardHelper;
     private final DOMDataTreeService dataTreeService;
 
-    /** Constructor for the TestFactory.
-     * @param shardHelper: Reference to the ShardHelper
+    /**
+     * Constructor for the TestFactory.
+     *
+     * @param shardHelper:     Reference to the ShardHelper
      * @param dataTreeService: Reference to the MD-SAL Data Tree Service
      */
     public ShardTestFactory(ShardHelper shardHelper, DOMDataTreeService dataTreeService) {
@@ -48,7 +54,9 @@ public class ShardTestFactory {
         LOG.info("TestFactory created.");
     }
 
-    /** Converts external test type to internal shard test type.
+    /**
+     * Converts external test type to internal shard test type.
+     *
      * @param testType: Binding-aware yang-generated test type
      * @return internal ShardTestType
      * @throws ShardTestException when yang-generated test type is unknown
@@ -68,7 +76,9 @@ public class ShardTestFactory {
         }
     }
 
-    /** Converts external data store type to internal LogicalDatastoreType type.
+    /**
+     * Converts external data store type to internal LogicalDatastoreType type.
+     *
      * @param dataStore: Binding-aware yang-generated data store type
      * @return LogicalDatastoreType (CONFIG or OPERATIONAL)
      */
@@ -76,7 +86,9 @@ public class ShardTestFactory {
         return dataStore == DataStore.CONFIG ? LogicalDatastoreType.CONFIGURATION : LogicalDatastoreType.OPERATIONAL;
     }
 
-    /** Creates new test with parameters.
+    /**
+     * Creates new test with parameters.
+     *
      * @param input: input parameters for the test
      * @return newly created ShardTest
      * @throws ShardTestException when test creation failed
@@ -113,7 +125,9 @@ public class ShardTestFactory {
         }
     }
 
-    /** Verifies that we can register shards from the root.
+    /**
+     * Verifies that we can register shards from the root.
+     *
      * @throws ShardVerifyException when shard verification failed
      */
     private void verifyProducerRights() throws ShardVerifyException {

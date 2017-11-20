@@ -13,11 +13,13 @@ import com.google.common.collect.Collections2;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Futures;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
 import org.opendaylight.controller.md.sal.common.api.data.AsyncDataBroker;
 import org.opendaylight.controller.md.sal.common.api.data.AsyncDataChangeEvent;
 import org.opendaylight.controller.md.sal.common.api.data.LogicalDatastoreType;
@@ -65,20 +67,20 @@ import org.slf4j.LoggerFactory;
 /**
  * This class is Binding Independent version of NcmountProvider
  * and provide the implementation of ncmount application.
- *
+ * <p>
  * BI - It uses a neutral data DOM format for data and API calls,
- *      which is independent of generated Java language bindings.
- *
+ * which is independent of generated Java language bindings.
+ * <p>
  * BA - It uses code generated both at development time and at runtime.
- *
- *  Here in the BI implementation, we used the Qname to access the DOM nodes
- *  e.g. ((MapEntryNode) topology).getChild(new NodeIdentifier(Node.QNAME)).
- *
- *  While in BA implementation we can directly use the generated bindings
- *  from the yang model to access the nodes.
- *
- *  One can follow the following link to understand the difference between BI and BA :
- *  https://ask.opendaylight.org/question/998/binding-independent-and-binding-aware-difference/
+ * <p>
+ * Here in the BI implementation, we used the Qname to access the DOM nodes
+ * e.g. ((MapEntryNode) topology).getChild(new NodeIdentifier(Node.QNAME)).
+ * <p>
+ * While in BA implementation we can directly use the generated bindings
+ * from the yang model to access the nodes.
+ * <p>
+ * One can follow the following link to understand the difference between BI and BA :
+ * https://ask.opendaylight.org/question/998/binding-independent-and-binding-aware-difference/
  */
 public class NcmountDomProvider implements Provider, AutoCloseable, DOMRpcImplementation, DOMDataChangeListener {
 
@@ -146,7 +148,7 @@ public class NcmountDomProvider implements Provider, AutoCloseable, DOMRpcImplem
     @Override
     public CheckedFuture<DOMRpcResult, DOMRpcException> invokeRpc(@Nonnull final DOMRpcIdentifier domRpcIdentifier, final NormalizedNode<?, ?> normalizedNode) {
 
-        if(domRpcIdentifier.equals(SHOW_NODE_RPC_ID)) {
+        if (domRpcIdentifier.equals(SHOW_NODE_RPC_ID)) {
             return showNode(normalizedNode);
         }
 
@@ -170,13 +172,13 @@ public class NcmountDomProvider implements Provider, AutoCloseable, DOMRpcImplem
      *
      * @param input Input parameter from the show-node service yang model -
      *              the node's configured name
-     * @return      Retrieved configuration and operational data
+     * @return Retrieved configuration and operational data
      */
     private CheckedFuture<DOMRpcResult, DOMRpcException> showNode(final NormalizedNode<?, ?> normalizedNode) {
         LOG.info("invoked showNode: {}", normalizedNode);
 
         // TODO: Method need to be implemented.
-        return Futures.immediateFailedCheckedFuture((DOMRpcException)new MethodNotImplemented("method not implemented"));
+        return Futures.immediateFailedCheckedFuture((DOMRpcException) new MethodNotImplemented("method not implemented"));
     }
 
     /**
@@ -215,8 +217,8 @@ public class NcmountDomProvider implements Provider, AutoCloseable, DOMRpcImplem
         }
 
         DataContainerChild<? extends PathArgument, ?> nodeList = ((MapEntryNode) topology).getChild(new NodeIdentifier(Node.QNAME))
-                                                                                          .get();
-        for (MapEntryNode operNode : ((MapNode)nodeList).getValue()) {
+                .get();
+        for (MapEntryNode operNode : ((MapNode) nodeList).getValue()) {
 
             // pick the leaf node with local name "node-id"
             String nodeId = ((String) operNode
@@ -230,10 +232,10 @@ public class NcmountDomProvider implements Provider, AutoCloseable, DOMRpcImplem
                                     "default-request-timeout-millis", "host", "max-connection-attempts",
                                     "connection-status", "credentials", "unavailable-capabilities",
                                     "between-attempts-timeout-millis", "keepalive-delay",
-                                    "clustered-connection-status","yang-module-capabilities", "pass-through",
+                                    "clustered-connection-status", "yang-module-capabilities", "pass-through",
                                     "connection-timeout-millis", "sleep-factor"))));
 
-            if(!netconfNode.isPresent()) {
+            if (!netconfNode.isPresent()) {
                 // Skipping non netconf nodes, even though this should not happen,
                 // since we are querying netconf topology
                 continue;
@@ -243,7 +245,7 @@ public class NcmountDomProvider implements Provider, AutoCloseable, DOMRpcImplem
             final LeafNode<?> connectionStatus = ((LeafNode<?>) netconfNodeParameters
                     .getChild(new NodeIdentifier(toQName(NetconfNode.QNAME, "connection-status"))).get());
 
-            if("connected".equals(connectionStatus.getValue())) {
+            if ("connected".equals(connectionStatus.getValue())) {
                 final ContainerNode availableCapabilities = ((ContainerNode) netconfNodeParameters
                         .getChild(new NodeIdentifier(toQName(NetconfNode.QNAME, "available-capabilities"))).get());
                 final LeafSetNode<?> availableCapability = (LeafSetNode<?>) availableCapabilities
@@ -251,7 +253,9 @@ public class NcmountDomProvider implements Provider, AutoCloseable, DOMRpcImplem
 
                 LOG.warn("Capabilities of {} : {}", nodeId,
                         Collections2.transform(availableCapability.getValue(), new Function<LeafSetEntryNode<?>, Object>() {
-                            @Nullable @Override public Object apply(final LeafSetEntryNode<?> input) {
+                            @Nullable
+                            @Override
+                            public Object apply(final LeafSetEntryNode<?> input) {
                                 return input.getValue();
 
                             }
@@ -270,7 +274,7 @@ public class NcmountDomProvider implements Provider, AutoCloseable, DOMRpcImplem
      * which is one of the external APIs into the ncmount application. The
      * service provides example functionality. Lists nodes in the Netconf
      * Topology's operational data.
-     *
+     * <p>
      * Netconf Topology is populated by the Netconf Connector. Operational data
      * contains status data for each netconf node configured in the Netconf
      * Connector.
@@ -295,7 +299,8 @@ public class NcmountDomProvider implements Provider, AutoCloseable, DOMRpcImplem
 
     private static Collection<QName> toQNames(final QName baseQName, String... localNames) {
         return Collections2.transform(Arrays.asList(localNames), new Function<String, QName>() {
-            @Override public QName apply(final String input) {
+            @Override
+            public QName apply(final String input) {
                 return QName.create(baseQName, input).intern();
             }
         });
@@ -313,9 +318,9 @@ public class NcmountDomProvider implements Provider, AutoCloseable, DOMRpcImplem
      * @return Success if routes were written to mounted netconf device
      */
     private CheckedFuture<DOMRpcResult, DOMRpcException> writeNode(final NormalizedNode<?, ?> normalizedNode) {
-     // TODO: Method need to be implemented.
+        // TODO: Method need to be implemented.
         LOG.info("invoked RPC Write-Node: {}", normalizedNode);
-        return Futures.immediateFailedCheckedFuture((DOMRpcException)new MethodNotImplemented("method not implemented"));
+        return Futures.immediateFailedCheckedFuture((DOMRpcException) new MethodNotImplemented("method not implemented"));
 
     }
 

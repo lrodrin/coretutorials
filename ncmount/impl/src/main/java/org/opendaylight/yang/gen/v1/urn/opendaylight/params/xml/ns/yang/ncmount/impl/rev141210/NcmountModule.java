@@ -28,15 +28,15 @@ public class NcmountModule extends org.opendaylight.yang.gen.v1.urn.opendaylight
     public java.lang.AutoCloseable createInstance() {
 
 
-         //== Following code enables the BA version of NcMount ==
+        //== Following code enables the BA version of NcMount ==
 
-         final NcmountProvider provider = new NcmountProvider();
-         getBrokerDependency().registerProvider(provider);
+        final NcmountProvider provider = new NcmountProvider();
+        getBrokerDependency().registerProvider(provider);
 
         //== Following code enables the BI version of NcMount =
 
-         // final NcmountDomProvider provider = new NcmountDomProvider();
-         // getDomBrokerDependency().registerProvider(provider);
+        // final NcmountDomProvider provider = new NcmountDomProvider();
+        // getDomBrokerDependency().registerProvider(provider);
 
         return provider;
     }

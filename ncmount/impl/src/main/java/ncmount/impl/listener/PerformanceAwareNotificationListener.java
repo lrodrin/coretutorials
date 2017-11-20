@@ -10,10 +10,12 @@ package ncmount.impl.listener;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Stopwatch;
+
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import ncmount.impl.NcmountProvider;
 import org.opendaylight.yang.gen.v1.org.opendaylight.coretutorials.ncmount.example.notifications.rev150611.ExampleNotificationsListener;
 import org.opendaylight.yang.gen.v1.org.opendaylight.coretutorials.ncmount.example.notifications.rev150611.VrfRouteNotification;
@@ -49,37 +51,38 @@ public class PerformanceAwareNotificationListener implements ExampleNotification
 
     /**
      * Handle notifications and measure number of notifications/second
+     *
      * @param notification example notification
      */
     @Override
     public void onVrfRouteNotification(final VrfRouteNotification notification) {
         final long andDecrement = notifCounter.getAndDecrement();
 
-        if(andDecrement == expectedNotificationCount) {
+        if (andDecrement == expectedNotificationCount) {
             this.stopWatch = Stopwatch.createStarted();
             LOG.info("First notification received at {}", stopWatch);
         }
 
         LOG.debug("Notification received, {} to go.", andDecrement);
-        if(LOG.isTraceEnabled()) {
+        if (LOG.isTraceEnabled()) {
             LOG.trace("Notification received: {}", notification);
         }
 
         totalPrefixesReceived += notification.getVrfPrefixes().getVrfPrefix().size();
 
-        if(andDecrement == 1) {
+        if (andDecrement == 1) {
             this.stopWatch.stop();
             LOG.info("Last notification received at {}", stopWatch);
             LOG.info("Elapsed ms for {} notifications: {}", expectedNotificationCount, stopWatch.elapsed(TimeUnit.MILLISECONDS));
             LOG.info("Performance (notifications/second): {}",
-                    (expectedNotificationCount * 1.0/stopWatch.elapsed(TimeUnit.MILLISECONDS)) * 1000);
+                    (expectedNotificationCount * 1.0 / stopWatch.elapsed(TimeUnit.MILLISECONDS)) * 1000);
             LOG.info("Performance (prefixes/second): {}",
-                    (totalPrefixesReceived * 1.0/stopWatch.elapsed(TimeUnit.MILLISECONDS)) * 1000);
+                    (totalPrefixesReceived * 1.0 / stopWatch.elapsed(TimeUnit.MILLISECONDS)) * 1000);
         }
 
     }
 
-    public static boolean shouldMeasurePerformance(final NodeId nodeId){
+    public static boolean shouldMeasurePerformance(final NodeId nodeId) {
         return nodeIdPattern.matcher(nodeId.getValue()).matches();
     }
 

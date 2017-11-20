@@ -250,7 +250,7 @@ public class IetfsyslogProvider implements BindingAwareProvider,
                 /* global-logging-action is not handled by Linux */
             }
             if (syslog.getBufferedLoggingAction() != null) {
-				/* buffered-logging-action is not handled by Linux */
+                /* buffered-logging-action is not handled by Linux */
             }
             config.flush();
             config.close();

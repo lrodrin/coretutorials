@@ -46,7 +46,7 @@ public class NcmountModuleTest {
         AutoCloseable closeable = module.getInstance();
 
         // verify that the module registered the returned provider with the broker
-        verify(broker).registerProvider((NcmountProvider)closeable);
+        verify(broker).registerProvider((NcmountProvider) closeable);
 
         // ensure no exceptions on close
         closeable.close();

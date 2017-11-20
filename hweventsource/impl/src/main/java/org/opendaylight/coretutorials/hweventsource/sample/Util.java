@@ -24,7 +24,7 @@ import com.google.common.util.concurrent.Futures;
 
 public final class Util {
 
-    public static String getUUIDIdent(){
+    public static String getUUIDIdent() {
         UUID uuid = UUID.randomUUID();
         return uuid.toString();
     }
@@ -53,8 +53,8 @@ public final class Util {
         return selection;
     }
 
-    public static boolean isNullOrEmpty(Collection<?> collection){
-        if(collection == null){
+    public static boolean isNullOrEmpty(Collection<?> collection) {
+        if (collection == null) {
             return true;
         }
         return collection.isEmpty();
@@ -62,14 +62,15 @@ public final class Util {
 
     /**
      * CREDIT to http://www.rgagnon.com/javadetails/java-0515.html
+     *
      * @param wildcard
      * @return
      */
-    public static String wildcardToRegex(final String wildcard){
+    public static String wildcardToRegex(final String wildcard) {
         final StringBuffer s = new StringBuffer(wildcard.length());
         s.append('^');
         for (final char c : wildcard.toCharArray()) {
-            switch(c) {
+            switch (c) {
                 case '*':
                     s.append(".*");
                     break;

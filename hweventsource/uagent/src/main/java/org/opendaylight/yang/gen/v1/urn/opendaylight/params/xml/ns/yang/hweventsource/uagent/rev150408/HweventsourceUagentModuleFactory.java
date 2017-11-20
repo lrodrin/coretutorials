@@ -8,6 +8,7 @@
 * Do not modify this file unless it is present under src/main directory
 */
 package org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.hweventsource.uagent.rev150408;
+
 public class HweventsourceUagentModuleFactory extends org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.hweventsource.uagent.rev150408.AbstractHweventsourceUagentModuleFactory {
 
 }

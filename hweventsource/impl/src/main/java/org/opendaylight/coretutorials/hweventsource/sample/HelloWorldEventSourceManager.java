@@ -24,15 +24,14 @@ import com.google.common.base.Preconditions;
  * This generating process simulates origin of event source.
  * Actual implementation will identify origin of event source
  * by various ways (e.g. listen on changes in topology, create connection of devices etc.).
- *
+ * <p>
  * Method addNewEventSource(HelloWorldEventSource eventSource) is called by {@link SampleEventSourceGenerator}
  * when generator created new event source and it want to register it.
- *
+ * <p>
  * Manager registers all added event sources in {@link EventSourceRegistry} and store {@link EventSourceRegistration} objects.
  * {@link EventSourceRegistration} objects are used to unregister event sources.
  *
  * @author madamjak
- *
  */
 public class HelloWorldEventSourceManager implements AutoCloseable {
 
@@ -40,6 +39,7 @@ public class HelloWorldEventSourceManager implements AutoCloseable {
 
     private final EventSourceRegistry eventSourceRegistry;
     private final ConcurrentHashMap<NodeKey, EventSourceRegistration<HelloWorldEventSource>> registrationMap = new ConcurrentHashMap<>();
+
     public HelloWorldEventSourceManager(final EventSourceRegistry eventSourceRegistry) {
         this.eventSourceRegistry = eventSourceRegistry;
     }
@@ -48,9 +48,9 @@ public class HelloWorldEventSourceManager implements AutoCloseable {
      * This method is called by by {@link SampleEventSourceGenerator} when generator
      * wants to add new event source.
      */
-    void addNewEventSource(HelloWorldEventSource eventSource){
+    void addNewEventSource(HelloWorldEventSource eventSource) {
         Preconditions.checkNotNull(eventSource);
-        if(registrationMap.containsKey(eventSource.getSourceNodeKey()) == false){
+        if (registrationMap.containsKey(eventSource.getSourceNodeKey()) == false) {
             // if there is no EventSourceRegistration object in registrationMap
             // then event source is registered
             registerEventSource(eventSource);
@@ -62,7 +62,7 @@ public class HelloWorldEventSourceManager implements AutoCloseable {
      * in registration map. This method should by synchronized in actual application or
      * concurrence issues can be solved by other suitable way.
      */
-    private void registerEventSource(HelloWorldEventSource eventSource){
+    private void registerEventSource(HelloWorldEventSource eventSource) {
         EventSourceRegistration<HelloWorldEventSource> esr = eventSourceRegistry.registerEventSource(eventSource);
         registrationMap.putIfAbsent(eventSource.getSourceNodeKey(), esr);
         LOG.info("Event source {} has been registered.", eventSource.getSourceNodeKey().getNodeId().getValue());
@@ -73,7 +73,7 @@ public class HelloWorldEventSourceManager implements AutoCloseable {
      */
     @Override
     public void close() throws Exception {
-        for(EventSourceRegistration<HelloWorldEventSource> esr : registrationMap.values()){
+        for (EventSourceRegistration<HelloWorldEventSource> esr : registrationMap.values()) {
             esr.close();
         }
     }

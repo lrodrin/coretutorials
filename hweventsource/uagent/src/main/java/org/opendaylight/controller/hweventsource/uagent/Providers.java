@@ -27,7 +27,8 @@ public class Providers {
         }
 
         @Override
-        public void close() throws Exception {}
+        public void close() throws Exception {
+        }
     }
 
     public static class BindingIndependent extends AbstractProvider implements AutoCloseable {
@@ -38,7 +39,8 @@ public class Providers {
         }
 
         @Override
-        public void close() throws Exception {}
+        public void close() throws Exception {
+        }
     }
 
 }

@@ -35,9 +35,9 @@ public class HweventsourceUagentModule extends org.opendaylight.yang.gen.v1.urn.
                 .registerConsumer(new NoopDOMConsumer())
                 .getService(DOMNotificationService.class);
         final File outputFile = new File(getOutputFileName());
-        UserAgent ua = UserAgent.create(notifyService,rpcRegistry, outputFile);
+        UserAgent ua = UserAgent.create(notifyService, rpcRegistry, outputFile);
 
-        if(ua != null){
+        if (ua != null) {
             LOG.info("HweventsourceUagent has been initialized");
         } else {
             LOG.error("HweventsourceUagent has not been initialized");

@@ -21,7 +21,6 @@ import org.slf4j.LoggerFactory;
  * Identifiers of generated event sources are created by this class.
  * Generation of event sources simulates origin of event source and in actual implementation
  * this class will not be occurred.
- *
  */
 public class SampleEventSourceGenerator {
 
@@ -34,7 +33,7 @@ public class SampleEventSourceGenerator {
     private final DOMNotificationPublishService domPublish;
     private int eventSourceCounter;
 
-    public SampleEventSourceGenerator(HelloWorldEventSourceManager eventSourceManager,DOMNotificationPublishService domPublish) {
+    public SampleEventSourceGenerator(HelloWorldEventSourceManager eventSourceManager, DOMNotificationPublishService domPublish) {
 
         this.eventSourceManager = eventSourceManager;
         this.domPublish = domPublish;
@@ -46,12 +45,12 @@ public class SampleEventSourceGenerator {
      * Method generate given number of event sources with given parameters
      * Instances of event sources are {@link HelloWorldEventSource}
      */
-    public void generateEventSources(Short numberSampleEventSources, Short messageGeneratePeriod, String messageText){
+    public void generateEventSources(Short numberSampleEventSources, Short messageGeneratePeriod, String messageText) {
         try {
             Thread.sleep(create_event_source_delay);
-            for(int i = 0; i< numberSampleEventSources; i++){
-                String identifier = String.format(node_id_prefix+ "%02d", eventSourceCounter);
-                eventSourceCounter = eventSourceCounter+ 1;
+            for (int i = 0; i < numberSampleEventSources; i++) {
+                String identifier = String.format(node_id_prefix + "%02d", eventSourceCounter);
+                eventSourceCounter = eventSourceCounter + 1;
                 eventSourceManager.addNewEventSource(getNewEvetSource(identifier, messageGeneratePeriod, messageText));
                 Thread.sleep(create_event_source_delay);
             }
@@ -60,13 +59,13 @@ public class SampleEventSourceGenerator {
         }
     }
 
-    private HelloWorldEventSource getNewEvetSource(String identifier, Short messageGeneratePeriod, String messageText){
+    private HelloWorldEventSource getNewEvetSource(String identifier, Short messageGeneratePeriod, String messageText) {
         Node sourceNode = getNewNode(identifier);
-        HelloWorldEventSource eventSource = new HelloWorldEventSource(this.domPublish, sourceNode,  messageGeneratePeriod, messageText);
+        HelloWorldEventSource eventSource = new HelloWorldEventSource(this.domPublish, sourceNode, messageGeneratePeriod, messageText);
         return eventSource;
     }
 
-    private Node getNewNode(String nodeIdent){
+    private Node getNewNode(String nodeIdent) {
         NodeId nodeId = new NodeId(nodeIdent);
         NodeBuilder nb = new NodeBuilder();
         nb.setKey(new NodeKey(nodeId));

@@ -5,9 +5,10 @@
  * terms of the Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  */
-package  org.opendaylight.coretutorials.hweventsource.impl;
+package org.opendaylight.coretutorials.hweventsource.impl;
 
 import static org.mockito.Mockito.mock;
+
 import org.junit.Test;
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
 

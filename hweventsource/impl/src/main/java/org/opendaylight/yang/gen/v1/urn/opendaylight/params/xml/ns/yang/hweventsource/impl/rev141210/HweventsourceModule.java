@@ -60,7 +60,7 @@ public class HweventsourceModule extends org.opendaylight.yang.gen.v1.urn.openda
             @Override
             public void close() throws Exception {
 
-            	esm.close();
+                esm.close();
                 providerBI.close();
 
             }

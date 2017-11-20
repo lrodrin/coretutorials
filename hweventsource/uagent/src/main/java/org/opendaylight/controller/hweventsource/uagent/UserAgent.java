@@ -49,12 +49,12 @@ import org.slf4j.LoggerFactory;
  * Client asks user agent to process TopicNotification with given TopicId by "read topic REST request".
  * User agent listens all TopicNotification notifications, but it will process only notification with requested TopicID.
  * Process of notification consist of two phases:
- *     - convert "payload" into string
- *     - write string into output file
+ * - convert "payload" into string
+ * - write string into output file
  * Instance of UserAgent is created by static method (see create(...)). Parameter File outputFile represents
  * output file where notifications will write.
  */
-public class UserAgent implements DOMNotificationListener, UagentTopicReadService, AutoCloseable{
+public class UserAgent implements DOMNotificationListener, UagentTopicReadService, AutoCloseable {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserAgent.class);
 
@@ -67,7 +67,7 @@ public class UserAgent implements DOMNotificationListener, UagentTopicReadServic
 
     private ListenerRegistration<UserAgent> listenerReg;
 
-    public static UserAgent create( DOMNotificationService notifyService, RpcProviderRegistry rpcRegistry, File outputFile){
+    public static UserAgent create(DOMNotificationService notifyService, RpcProviderRegistry rpcRegistry, File outputFile) {
         final UserAgent ua = new UserAgent(outputFile);
         try {
             // try to create writer
@@ -88,23 +88,23 @@ public class UserAgent implements DOMNotificationListener, UagentTopicReadServic
     }
 
 
-    private void registerListener(DOMNotificationService notifyService){
-        this.listenerReg = notifyService.registerNotificationListener(this,SchemaPath.create(true, TopicNotification.QNAME));
+    private void registerListener(DOMNotificationService notifyService) {
+        this.listenerReg = notifyService.registerNotificationListener(this, SchemaPath.create(true, TopicNotification.QNAME));
     }
 
     /*
      * create writer for output file
      * If file exists then file is rewrite
      */
-    private void createWriter() throws IOException{
-        if(outputFile.exists()){
+    private void createWriter() throws IOException {
+        if (outputFile.exists()) {
             outputFile.delete();
         }
         FileWriter outFw = null;
         try {
-            outFw = new FileWriter (outputFile.getAbsolutePath());
+            outFw = new FileWriter(outputFile.getAbsolutePath());
         } catch (IOException e) {
-            LOG.error("Can not create writer for {} {}",outputFile.getAbsolutePath(), e);
+            LOG.error("Can not create writer for {} {}", outputFile.getAbsolutePath(), e);
             throw e;
         }
         this.bufferedWriter = new BufferedWriter(outFw);
@@ -112,7 +112,7 @@ public class UserAgent implements DOMNotificationListener, UagentTopicReadServic
     }
 
     @Override
-    public void close() throws Exception{
+    public void close() throws Exception {
         this.listenerReg.close();
         this.bufferedWriter.close();
     }
@@ -127,19 +127,20 @@ public class UserAgent implements DOMNotificationListener, UagentTopicReadServic
         String nodeName = null;
         TopicId topicId = null;
         // get the nodeName (identifier of event source) from notification
-        if(notification.getBody().getChild(EVENT_SOURCE_ARG).isPresent()){
+        if (notification.getBody().getChild(EVENT_SOURCE_ARG).isPresent()) {
             nodeName = notification.getBody().getChild(EVENT_SOURCE_ARG).get().getValue().toString();
         }
         // get the TopicId from notification
-        if(notification.getBody().getChild(TOPIC_ID_ARG).isPresent()){;
+        if (notification.getBody().getChild(TOPIC_ID_ARG).isPresent()) {
+            ;
             topicId = (TopicId) notification.getBody().getChild(TOPIC_ID_ARG).get().getValue();
         }
-        if( nodeName != null && topicId != null ){
-        	// if nodeName and TopicId are present and TopicId has been requested to process (TopicId is in registeredTopic)
-        	// then notification is parsed and written into the file.
-            if(registeredTopic.contains(topicId.getValue())){
+        if (nodeName != null && topicId != null) {
+            // if nodeName and TopicId are present and TopicId has been requested to process (TopicId is in registeredTopic)
+            // then notification is parsed and written into the file.
+            if (registeredTopic.contains(topicId.getValue())) {
                 final String payLoadString = parsePayLoad(notification);
-                if(payLoadString != null){
+                if (payLoadString != null) {
                     writeOutputLine(nodeName + " : " + payLoadString);
                     LOG.debug("Notification write to FILE");
                 }
@@ -155,7 +156,7 @@ public class UserAgent implements DOMNotificationListener, UagentTopicReadServic
     public synchronized Future<RpcResult<Void>> readTopic(ReadTopicInput input) {
         String topicId = input.getTopicId().getValue();
         // if requested TopicId has not been requested before then it is added into to register
-        if(registeredTopic.contains(topicId) == false){
+        if (registeredTopic.contains(topicId) == false) {
             registeredTopic.add(topicId);
             LOG.info("UserAgent start read notification with TopicId {}", topicId);
         }
@@ -163,14 +164,14 @@ public class UserAgent implements DOMNotificationListener, UagentTopicReadServic
     }
 
     // Helper for notification parse
-    private String parsePayLoad(DOMNotification notification){
+    private String parsePayLoad(DOMNotification notification) {
 
         final AnyXmlNode encapData = (AnyXmlNode) notification.getBody().getChild(PAYLOAD_ARG).get();
         final StringWriter writer = new StringWriter();
         final StreamResult result = new StreamResult(writer);
         final TransformerFactory tf = TransformerFactory.newInstance();
         try {
-        final Transformer transformer = tf.newTransformer();
+            final Transformer transformer = tf.newTransformer();
             transformer.transform(encapData.getValue(), result);
         } catch (TransformerException e) {
             LOG.error("Can not parse PayLoad data", e);
@@ -181,9 +182,9 @@ public class UserAgent implements DOMNotificationListener, UagentTopicReadServic
     }
 
     // Helper for write line into output file
-    private void writeOutputLine(String textLine){
+    private void writeOutputLine(String textLine) {
         String outputText = Calendar.getInstance().getTime().toString();
-        if(textLine != null){
+        if (textLine != null) {
             outputText = outputText + " : " + textLine;
         }
         try {

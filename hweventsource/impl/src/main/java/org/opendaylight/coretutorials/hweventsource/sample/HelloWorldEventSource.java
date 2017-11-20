@@ -67,34 +67,33 @@ import com.google.common.util.concurrent.ListenableFuture;
  * HelloWorldEventSource is an example of event source.
  * To create own event source you need to implement {@link EventSource} interface.
  * This example shows how to implement all necessary methods.
- * 
+ * <p>
  * For simulation of occurrence of notification HelloWorldEventSource periodically creates messages
  * and if there is an joined topic then publish notifications with created messages.
- *
+ * <p>
  * Event source is identified by NodeKey (see method getNodeKey). Actual implementation can obtain node
  * as a constructor parameter (like as this example) or it can build own node by implementation specific
  * naming policy.
- *
- * Messages are generated in internal class (MessageGenerator). 
+ * <p>
+ * Messages are generated in internal class (MessageGenerator).
  * Message generator is started in constructor.
  * Messages are generated periodically in given interval and contain given text
  * (see constructor parameters Short messageGeneratePeriod and String messageText)
- *
+ * <p>
  * There is method joinTopic, that is called by {@link EventSourceRegistry} when event topic
  * is created and HelloWorldEventSource could publish notification. Implementation of joinTopic
  * has to analyze input and compare it with HelloWorldEventSource's available notification.
  * Method joinTopic registers only topic that match with at least one available notification.
- *
+ * <p>
  * Follow comments and docs in code, to learn more.
  *
  * @author madamjak
- *
  */
 public class HelloWorldEventSource implements EventSource {
 
     private static final Logger LOG = LoggerFactory.getLogger(HelloWorldEventSource.class);
 
-    public static final QName sample_notification_QNAME = QName.create("urn:cisco:params:xml:ns:yang:messagebus:sample","2015-03-16","sample-notification").intern();
+    public static final QName sample_notification_QNAME = QName.create("urn:cisco:params:xml:ns:yang:messagebus:sample", "2015-03-16", "sample-notification").intern();
     public static final String XMLNS_ATTRIBUTE_KEY = "xmlns";
     public static final String XMLNS_URI = "http://www.w3.org/2000/xmlns/";
     private static final NodeIdentifier TOPIC_NOTIFICATION_ARG = new NodeIdentifier(TopicNotification.QNAME);
@@ -123,7 +122,7 @@ public class HelloWorldEventSource implements EventSource {
         startMessageGenerator();
     }
 
-    private void startMessageGenerator(){
+    private void startMessageGenerator() {
         // message generator is started as scheduled task
         scheduler.scheduleAtFixedRate(new MessageGenerator(sourceNode.getNodeId().getValue(), this.messageText), messageGeneratePeriod, messageGeneratePeriod, TimeUnit.SECONDS);
     }
@@ -139,7 +138,7 @@ public class HelloWorldEventSource implements EventSource {
     @Override
     public Future<RpcResult<JoinTopicOutput>> joinTopic(JoinTopicInput input) {
 
-        LOG.info("Start join Topic {} {}",getSourceNodeKey().getNodeId().getValue(), input.getTopicId().getValue());
+        LOG.info("Start join Topic {} {}", getSourceNodeKey().getNodeId().getValue(), input.getTopicId().getValue());
 
         final NotificationPattern notificationPattern = input.getNotificationPattern();
 
@@ -147,7 +146,7 @@ public class HelloWorldEventSource implements EventSource {
         final List<SchemaPath> matchingNotifications = getMatchingNotifications(notificationPattern);
 
         JoinTopicStatus joinTopicStatus = JoinTopicStatus.Down;
-        if(Util.isNullOrEmpty(matchingNotifications) == false){
+        if (Util.isNullOrEmpty(matchingNotifications) == false) {
             // if there is at least one SchemaPath matched with NotificationPattern then topic is add into the list
             LOG.info("Node {} Join topic {}", sourceNode.getNodeId().getValue(), input.getTopicId().getValue());
             listAcceptedTopics.add(input.getTopicId());
@@ -190,7 +189,7 @@ public class HelloWorldEventSource implements EventSource {
      * In actual implementation event source can set this list same way as this example code or it can obtain it from other sources
      * (e.g. configuration parameters, device capabilities etc.)
      */
-    private void setAvailableNotifications(){
+    private void setAvailableNotifications() {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(0);
         cal.set(2015, 4, 8, 0, 0, 0);
@@ -205,8 +204,8 @@ public class HelloWorldEventSource implements EventSource {
             throw new RuntimeException("Bad URI for notification", e);
         }
 
-        QName qnSample = QName.create(uriSample,revisionDate,"sample-message");
-        QName qnTest = QName.create(uriTest,revisionDate,"sample-message");
+        QName qnSample = QName.create(uriSample, revisionDate, "sample-message");
+        QName qnTest = QName.create(uriTest, revisionDate, "sample-message");
 
         SchemaPath spSample = SchemaPath.create(true, qnSample);
         SchemaPath spTest = SchemaPath.create(true, qnTest);
@@ -218,7 +217,7 @@ public class HelloWorldEventSource implements EventSource {
     /*
      * Method return list of SchemaPath matched by notificationPattern
      */
-    private List<SchemaPath> getMatchingNotifications(NotificationPattern notificationPattern){
+    private List<SchemaPath> getMatchingNotifications(NotificationPattern notificationPattern) {
         // wildcard notification pattern is converted into regex pattern
         // notification pattern could be changed into regex syntax in the future
         final String regex = Util.wildcardToRegex(notificationPattern.getValue());
@@ -251,10 +250,10 @@ public class HelloWorldEventSource implements EventSource {
         @Override
         public void run() {
             // message is generated every run of method
-            String message = this.messageText + " [" + Calendar.getInstance().getTime().toString() +"]";
-            LOG.debug("Sample message generated: {}",message);
+            String message = this.messageText + " [" + Calendar.getInstance().getTime().toString() + "]";
+            LOG.debug("Sample message generated: {}", message);
 
-            for(TopicId jointTopic : listAcceptedTopics){
+            for (TopicId jointTopic : listAcceptedTopics) {
                 // notification is published for each accepted topic 
                 // if there is no accepted topic, no notification will publish
 
@@ -269,25 +268,25 @@ public class HelloWorldEventSource implements EventSource {
                 final String topicId = jointTopic.getValue();
 
                 // notification is encapsulated into TopicDOMNotification and publish via DOMNotificationPublisherService
-                TopicDOMNotification topicNotification = createNotification(notification,this.eventSourceIdent,topicId);
+                TopicDOMNotification topicNotification = createNotification(notification, this.eventSourceIdent, topicId);
 
                 ListenableFuture<? extends Object> notifFuture;
                 try {
                     notifFuture = domPublish.putNotification(topicNotification);
-                    Futures.addCallback(notifFuture, new FutureCallback<Object>(){
+                    Futures.addCallback(notifFuture, new FutureCallback<Object>() {
 
                         @Override
                         public void onSuccess(Object result) {
-                             LOG.info("Sample message published for topic [TopicId: {}]",topicId);
+                            LOG.info("Sample message published for topic [TopicId: {}]", topicId);
                         }
 
                         @Override
                         public void onFailure(Throwable t) {
-                             LOG.error("Sample message has not published for topic [TopicId: {}], Exception: {}",topicId,t);
+                            LOG.error("Sample message has not published for topic [TopicId: {}], Exception: {}", topicId, t);
                         }
                     });
                 } catch (InterruptedException e) {
-                    LOG.error("Sample message has not published for topic [TopicId: {}], Exception: {}",topicId,e);
+                    LOG.error("Sample message has not published for topic [TopicId: {}], Exception: {}", topicId, e);
                 }
 
             }
@@ -300,7 +299,7 @@ public class HelloWorldEventSource implements EventSource {
          *   - identifier of event source
          *   - SampleEventSourceNotification encapsulated into XML form (see AnyXmlNode encapsulate(...))
          */
-        private TopicDOMNotification createNotification(SampleEventSourceNotification notification, String eventSourceIdent, String topicId){
+        private TopicDOMNotification createNotification(SampleEventSourceNotification notification, String eventSourceIdent, String topicId) {
 
             final ContainerNode topicNotification = Builders.containerBuilder()
                     .withNodeIdentifier(TOPIC_NOTIFICATION_ARG)
@@ -316,7 +315,7 @@ public class HelloWorldEventSource implements EventSource {
          * Result of this method is encapsulated SampleEventSourceNotification into AnyXMLNode
          * SampleEventSourceNotification is XML fragment in output
          */
-        private AnyXmlNode encapsulate(SampleEventSourceNotification notification){
+        private AnyXmlNode encapsulate(SampleEventSourceNotification notification) {
 
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder;
@@ -330,7 +329,7 @@ public class HelloWorldEventSource implements EventSource {
             Document doc = docBuilder.newDocument();
 
             final Optional<String> namespace = Optional.of(PAYLOAD_ARG.getNodeType().getNamespace().toString());
-            final Element rootElement = createElement(doc , "payload", namespace);
+            final Element rootElement = createElement(doc, "payload", namespace);
 
             final Element notifElement = doc.createElement("SampleEventSourceNotification");
             rootElement.appendChild(notifElement);
@@ -344,17 +343,17 @@ public class HelloWorldEventSource implements EventSource {
             notifElement.appendChild(messageElement);
 
             return Builders.anyXmlBuilder().withNodeIdentifier(PAYLOAD_ARG)
-                         .withValue(new DOMSource(rootElement))
-                         .build();
+                    .withValue(new DOMSource(rootElement))
+                    .build();
 
         }
 
         // Helper to create root XML element with correct namespace and attribute
         private Element createElement(final Document document, final String qName, final Optional<String> namespaceURI) {
-            if(namespaceURI.isPresent()) {
+            if (namespaceURI.isPresent()) {
                 final Element element = document.createElementNS(namespaceURI.get(), qName);
                 String name = XMLNS_ATTRIBUTE_KEY;
-                if(element.getPrefix() != null) {
+                if (element.getPrefix() != null) {
                     name += ":" + element.getPrefix();
                 }
                 element.setAttributeNS(XMLNS_URI, name, namespaceURI.get());

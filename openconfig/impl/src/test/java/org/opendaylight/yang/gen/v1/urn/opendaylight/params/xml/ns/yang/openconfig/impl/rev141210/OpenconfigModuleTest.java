@@ -46,7 +46,7 @@ public class OpenconfigModuleTest {
         AutoCloseable closeable = module.getInstance();
 
         // verify that the module registered the returned provider with the broker
-        verify(broker).registerProvider((OpenconfigProvider)closeable);
+        verify(broker).registerProvider((OpenconfigProvider) closeable);
 
         // ensure no exceptions on close
         closeable.close();

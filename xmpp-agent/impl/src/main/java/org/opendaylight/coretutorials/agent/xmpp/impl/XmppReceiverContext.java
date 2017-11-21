@@ -32,7 +32,7 @@ public class XmppReceiverContext implements AutoCloseable, MessageListener, Iden
     }
 
     static XmppReceiverContext create(final ChatManager chatManager, final ReceiverKey userName) {
-        return new XmppReceiverContext(chatManager,userName);
+        return new XmppReceiverContext(chatManager, userName);
     }
 
     void sendMessage(final String text) throws NotConnectedException, XMPPException {

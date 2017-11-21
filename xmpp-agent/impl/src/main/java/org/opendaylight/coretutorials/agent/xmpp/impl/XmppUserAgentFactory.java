@@ -9,10 +9,12 @@
 package org.opendaylight.coretutorials.agent.xmpp.impl;
 
 import com.google.common.base.Preconditions;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.md.sal.binding.api.DataObjectModification;
 import org.opendaylight.controller.md.sal.binding.api.DataTreeChangeListener;
@@ -77,7 +79,7 @@ public class XmppUserAgentFactory implements DataTreeChangeListener<XmppUserAgen
 
 
     private synchronized void createOrReplace(final InstanceIdentifier<XmppUserAgent> agentKey,
-            final XmppUserAgent configuration) {
+                                              final XmppUserAgent configuration) {
         LOG.info("Going to create / replace agent {}", agentKey);
         final XmppUserAgentImpl previous = agents.get(agentKey);
         if (previous != null) {

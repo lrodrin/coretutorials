@@ -16,6 +16,7 @@ import java.util.Map.Entry;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
+
 import org.jivesoftware.smack.ChatManager;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.XMPPConnection;
@@ -65,7 +66,7 @@ public class XmppUserAgentImpl implements DOMNotificationListener, AutoCloseable
     private final ListenerRegistration<XmppUserAgentImpl> configurationReg;
 
     private XmppUserAgentImpl(final InstanceIdentifier<XmppUserAgent> id, final XmppUserAgent userAgent, final DataBroker dataBroker,
-            final DOMNotificationService notificationService) {
+                              final DOMNotificationService notificationService) {
         identifier = id;
         final ConnectionConfiguration connectionConfig = new ConnectionConfiguration(userAgent.getHost());
         try {
@@ -86,8 +87,8 @@ public class XmppUserAgentImpl implements DOMNotificationListener, AutoCloseable
 
 
     static XmppUserAgentImpl create(final InstanceIdentifier<XmppUserAgent> id, final XmppUserAgent configuration, final DataBroker dataBroker,
-            final DOMNotificationService notificationService) {
-        return new XmppUserAgentImpl(id,configuration, dataBroker, notificationService);
+                                    final DOMNotificationService notificationService) {
+        return new XmppUserAgentImpl(id, configuration, dataBroker, notificationService);
     }
 
 

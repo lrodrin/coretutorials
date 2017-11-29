@@ -20,6 +20,18 @@ and is available at http://www.eclipse.org/legal/epl-v10.html
     <groupId>org.opendaylight.coretutorials</groupId>
     <artifactId>ncmount-impl</artifactId>
     <version>1.2.1-SNAPSHOT</version>
+    <repositories>
+        <repository>
+            <id>repository.springsource.com.release</id>
+            <name>SpringSource OBR - Release</name>
+            <url>http://repository.springsource.com/maven/bundles/release</url>
+        </repository>
+        <repository>
+            <id>repository.springsource.com.external</id>
+            <name>SpringSource OBR - External</name>
+            <url>http://repository.springsource.com/maven/bundles/external</url>
+        </repository>
+    </repositories>
     <packaging>bundle</packaging>
 
     <dependencyManagement>
@@ -40,7 +52,6 @@ and is available at http://www.eclipse.org/legal/epl-v10.html
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -69,8 +80,9 @@ and is available at http://www.eclipse.org/legal/epl-v10.html
 
         <!-- Testing Dependencies -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit</groupId>
+            <artifactId>com.springsource.junit</artifactId>
+            <version>3.8.2</version>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
